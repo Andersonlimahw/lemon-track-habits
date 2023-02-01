@@ -1,11 +1,17 @@
+import dayjs from 'dayjs';
 import { prisma } from './lib/prisma';
 import { FastifyInstance } from 'fastify';
 import { z } from 'zod';
-import dayjs from '../node_modules/dayjs/esm';
+
 
 export async function appRoutes(app : FastifyInstance) {
     app.get('/habits',  async () => {
-        const habits = await prisma.habit.findMany();
+        const habits = await prisma.habit.findMany({
+            include: {
+                dayHabits: true, 
+                weekDays: true
+            }
+        });
         return habits;
     });
 
@@ -63,13 +69,13 @@ export async function appRoutes(app : FastifyInstance) {
                 date: parsedDate.toDate(),
             }, 
             include: {
-                dayHabits: true
+                dayHabits: true, 
             }
         })
 
         const completedHabits = day?.dayHabits.map(dayHabit => {
             return dayHabit.habit_id
-        });
+        }) ?? [];
 
         return {
             possibleHabits, 
