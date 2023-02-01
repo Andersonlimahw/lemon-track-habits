@@ -12,6 +12,7 @@ const thirdHabitId = 'fa1a1bcf-3d87-4626-8c0d-d7fd1255ac00'
 const thirdHabitCreationDate = new Date('2023-01-08T03:00:00.000')
 
 
+const monday : number = 0;
 async function run() {
   await prisma.habit.deleteMany()
   await prisma.day.deleteMany()
@@ -24,17 +25,48 @@ async function run() {
       data: {
         id: firstHabitId,
         title: 'Beber 2L água',
-        created_at: firstHabitCreationDate, 
+        created_at: firstHabitCreationDate,
         weekDays: {
           create: [
-            {
-              week_day: 1, 
-              id: thirdHabitId
-            }
+            { week_day: 1 },
+            { week_day: 2 },
+            { week_day: 3 },
           ]
         }
       }
     }),
+
+    prisma.habit.create({
+      data: {
+        id: secondHabitId,
+        title: 'Exercitar',
+        created_at: secondHabitCreationDate,
+        weekDays: {
+          create: [
+            { week_day: 3 },
+            { week_day: 4 },
+            { week_day: 5 },
+          ]
+        }
+      }
+    }),
+
+    prisma.habit.create({
+      data: {
+        id: thirdHabitId,
+        title: 'Dormir 8h',
+        created_at: thirdHabitCreationDate,
+        weekDays: {
+          create: [
+            { week_day: 1 },
+            { week_day: 2 },
+            { week_day: 3 },
+            { week_day: 4 },
+            { week_day: 5 },
+          ]
+        }
+      }
+    })
   ])
 
   await Promise.all([
@@ -49,6 +81,37 @@ async function run() {
           create: {
             habit_id: firstHabitId,
           }
+        }
+      }
+    }),
+
+    /**
+     * Habits (Complete/Available): 1/1
+     */
+    prisma.day.create({
+      data: {
+        /** Friday */
+        date: new Date('2023-01-06T03:00:00.000z'),
+        dayHabits: {
+          create: {
+            habit_id: firstHabitId,
+          }
+        }
+      }
+    }),
+
+    /**
+     * Habits (Complete/Available): 2/2
+     */
+    prisma.day.create({
+      data: {
+        /** Wednesday */
+        date: new Date('2023-01-04T03:00:00.000z'),
+        dayHabits: {
+          create: [
+            { habit_id: firstHabitId },
+            { habit_id: secondHabitId },
+          ]
         }
       }
     }),
