@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind utilities;
 @tailwind components;
+
+body, html {
+    width: 100%;
+    height: auto;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}

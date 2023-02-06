@@ -8,7 +8,14 @@ module.exports = {
     './index.html'
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        background: '#09090A'
+      }, 
+      gridTemplateRows: {
+        7: 'repeat(7,minmax(01fr))'
+      }
+    },
   },
   plugins: [],
 }
