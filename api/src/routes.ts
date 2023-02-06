@@ -37,9 +37,18 @@ export async function appRoutes(app : FastifyInstance) {
                             week_day: weekDay
                         }
                     })
-                }
+                }, 
             }
         })
+    })
+
+    app.get('/days', async (request) => {
+        const days = await prisma.day.findMany({
+            include: {
+                dayHabits: true,
+            }
+        });
+        return days;
     })
 
     app.get('/day', async (request) => {
@@ -61,6 +70,10 @@ export async function appRoutes(app : FastifyInstance) {
                     week_day: weekDay
                    }
                 }
+            }, 
+            include: {
+                dayHabits: true,
+                weekDays: true,
             }
         });
         
@@ -69,17 +82,23 @@ export async function appRoutes(app : FastifyInstance) {
                 date: parsedDate.toDate(),
             }, 
             include: {
-                dayHabits: true, 
+                dayHabits: true,
             }
         })
+
 
         const completedHabits = day?.dayHabits.map(dayHabit => {
             return dayHabit.habit_id
         }) ?? [];
 
         return {
-            possibleHabits, 
-            completedHabits
+            data: {
+                possibleHabits, 
+                completedHabits
+            }, 
+            message: "Success", 
+            code: "200"
+           
         };
     })
 }
