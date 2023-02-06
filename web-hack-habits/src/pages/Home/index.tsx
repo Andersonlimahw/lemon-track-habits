@@ -1,14 +1,12 @@
 import { Header } from '../../commons/components/Header';
 import { SummaryTable } from '../../commons/components/SummaryTable';
-import logoImage from './images/logo.svg';
-import { Plus } from 'phosphor-react';
 
 export const Home = (): any => {
 
     return (
-        <>
+        <div className='w-screen h-screen flex flex-col justify-center items-center gap-2'>
             <Header />
             <SummaryTable />
-        </>
+        </div>
     )
 }
