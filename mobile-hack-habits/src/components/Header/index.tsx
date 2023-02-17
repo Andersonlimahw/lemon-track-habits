@@ -11,7 +11,7 @@ export const Header = () => {
 
             <TouchableOpacity
                 activeOpacity={0.7}
-                className='flex-row h-11 px-4 border-violet-500 rounded-lg items-center'
+                className='flex-row h-12 px-4 border-violet-500 rounded-lg items-center'
             > 
                 <Feather
                     name="plus"
