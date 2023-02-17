@@ -6,12 +6,12 @@ import Logo from '../../assets/images/logo.svg';
 
 export const Header = () => {
     return (
-        <View className='w-full flex-row items-center justify-between'>
+        <View className='w-full flex-row items-center justify-between mt-8 mb-4'>
             <Logo />
 
             <TouchableOpacity
                 activeOpacity={0.7}
-                className='flex-row h-12 px-4 border-violet-500 rounded-lg items-center'
+                className='flex-row h-12 px-4 border-violet-500 border rounded-lg items-center px-4'
             > 
                 <Feather
                     name="plus"
