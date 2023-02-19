@@ -1,6 +1,6 @@
 import { Day } from "../Day";
-import { HabitDay } from "../HabitDay";
 import { generateDatesFromYearBeginning } from '../../utils/generate-date-from-year-beginning';
+import HabitDay from "../Radix/Popover";
 
 const weekDays = [
     'D',
