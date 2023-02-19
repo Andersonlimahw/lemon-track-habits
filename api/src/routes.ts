@@ -44,6 +44,7 @@ export async function appRoutes(app: FastifyInstance) {
 
     const { id } = toggleHabitParams.parse(request.params);
     const today = dayjs().startOf("day").toDate();
+    let message = "completed";
 
     let day = await prisma.day.findUnique({
       where: {
@@ -67,6 +68,7 @@ export async function appRoutes(app: FastifyInstance) {
       },
     });
 
+    // Delete or insert:
     if (dayHabit) {
         // Deleta hábito caso exista.
         await prisma.dayHabit.delete({
@@ -74,6 +76,7 @@ export async function appRoutes(app: FastifyInstance) {
                 id: dayHabit.id
             }
         })
+        message = "removed";
     } else {
       // Completa o habito:
       await prisma.dayHabit.create({
@@ -83,6 +86,15 @@ export async function appRoutes(app: FastifyInstance) {
         },
       });
     }
+
+    return {
+      data: {
+        habitId: id,
+        daiId: day.id
+      },
+      message: `Success, Habit ${message} with success`,
+      code: "200",
+    };
   });
 
   app.get("/days", async (request) => {
