@@ -37,6 +37,24 @@ export async function appRoutes(app: FastifyInstance) {
     return habits;
   });
 
+  app.get("/habits/:id", async (request) => {
+    const routeParams = z.object({
+      id: z.string().uuid(),
+    });
+
+    const { id } = routeParams.parse(request.params);
+    const habits = await prisma.habit.findUnique({
+      where: {
+        id: id
+      },
+      include: {
+        dayHabits: true,
+        weekDays: true,
+      },
+    });
+    return habits;
+  })
+
   app.patch("/habits/:id/toggle", async (request) => {
     const toggleHabitParams = z.object({
       id: z.string().uuid(),
@@ -174,21 +192,21 @@ export async function appRoutes(app: FastifyInstance) {
         ) as completed,
         (
           SELECT 
-            CAST(COUNT(*) AS FLOAT)
+            CAST(COUNT(*) AS FLOAT)            
           FROM habit_week_days weekDays
           JOIN habits habit
             ON habit.id = weekDays.habit_id
           WHERE
             weekDays.week_day = CAST(strftime('%w',day.date/1000.0,'unixepoch') AS INT)
             AND habit.created_at <= day.date
-        ) as amount
+        ) as amount       
       FROM days day
     `;
 
     return {
       data: summary,
       code: "200",
-      message: "Success",
+      message: "Success, summar returned",
     };
   });
 }
