@@ -8,13 +8,13 @@ import Logo from '../../assets/images/logo.svg';
 
 export const Header = () => {
 
-    const { navigate } = useNavigation();
+    // const { navigate } = useNavigation();
 
     const NewHabitButton = () => (
         <TouchableOpacity
                 activeOpacity={0.7}
                 className='flex-row h-12 px-4 border-violet-500 border rounded-lg items-center'
-                onPress={() => navigate('new')}
+                // onPress={() => navigate('new')}
             > 
                 <Feather
                     name="plus"

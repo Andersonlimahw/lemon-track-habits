@@ -10,7 +10,7 @@ const amountOfDaysToFill = mimimumSummaryDatesSizes - days.length;
 
 export const Home = () => {
     return (
-        <View className="bg-background flex-1 px-6 pt-16" >
+        <View className="bg-background flex-1 px-6 pt-16">
             <Header />
             <View
                 className="flex-row mt-6 mb-6"

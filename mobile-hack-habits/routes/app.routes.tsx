@@ -5,14 +5,14 @@ import { Habit } from './../src/screens/Habit/index';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
-export function AppRoutes() {
+export default function AppRoutes() {
     return (
         <Navigator>
             <Screen
                 name="home"
                 component={Home}
-            />
 
+            />
             <Screen
                 name="new"
                 component={NewHabit}
@@ -25,5 +25,3 @@ export function AppRoutes() {
         </Navigator>
     )
 }
-
-export default AppRoutes();
