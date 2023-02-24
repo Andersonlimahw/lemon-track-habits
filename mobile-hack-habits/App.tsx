@@ -10,7 +10,7 @@ import {
 
 // Local imports:
 import { Loading } from './src/components'
-import { Home } from './src/screens/Home';
+import { Routes } from './routes/index';
 
 export default function App() {
 
@@ -27,12 +27,13 @@ export default function App() {
 
   return (
     <>
-      <Home />
+      <Routes />
       <StatusBar 
         barStyle="light-content"
         backgroundColor="transparent"
         translucent
       />
+     
     </>
   );
 }
