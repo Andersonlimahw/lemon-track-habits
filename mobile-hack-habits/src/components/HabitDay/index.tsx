@@ -1,4 +1,5 @@
 import { TouchableOpacity, Dimensions } from "react-native"
+import React from 'react';
 
 const WEEK_DAYS = 7;
 const SCREEN_HORIZONTAL_PADDING = (32 * 2) / 5;

@@ -6,11 +6,11 @@ install expo global
   npm install -g expo-cli
 
 ```
-
+Use no
 Install dependencies
 
 ```shell
-  npm install
+  npm install --force
 
 ```
 
