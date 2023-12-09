@@ -3,6 +3,7 @@ import { Home } from "../src/screens/Home/index";
 import { NewHabit } from "../src/screens/NewHabit/index";
 import { Habit } from './../src/screens/Habit/index';
 import { View, Text } from "react-native";
+import React from "react";
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
