@@ -22,7 +22,13 @@ export const fetchApi = <T>({
       body: JSON.stringify(body),
     })
       .then(response => response.json())
-      .then(json => resolve(json))
-      .catch(error => reject(error));
+      .then(json => {
+        console.info('Success on fetchApi', json);
+        resolve(json)
+      })
+      .catch(error => {
+        console.error('Error on fetchApi', error);
+        reject(error);
+      });
   });
 };

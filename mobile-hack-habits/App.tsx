@@ -1,5 +1,6 @@
 
 import { StatusBar, View } from 'react-native';
+import { ToastProvider } from 'react-native-toast-notifications'
 import { 
   useFonts, 
   Inter_400Regular, 
@@ -11,6 +12,7 @@ import {
 // Local imports:
 import { Loading } from './src/components'
 import { Routes } from './routes/index';
+import React from 'react';
 
 export default function App() {
 
@@ -26,13 +28,13 @@ export default function App() {
   }
 
   return (
-    <>
+    <ToastProvider>
       <StatusBar 
         barStyle="light-content"
         backgroundColor="transparent"
         translucent
       />
       <Routes />
-    </>
+    </ToastProvider>
   );
 }

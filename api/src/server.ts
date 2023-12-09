@@ -1,9 +1,15 @@
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
-import { prisma } from './lib/prisma';
 import { appRoutes } from './routes';
+import fs from 'fs';
 
-const app = Fastify();
+const serverOptions = {
+    https: {
+      key: fs.readFileSync('ssl/key.pem'),
+      cert: fs.readFileSync('ssl/cert.pem')
+    }
+  };
+const app = Fastify(serverOptions);
 
 app.register(cors);
 app.register(appRoutes)

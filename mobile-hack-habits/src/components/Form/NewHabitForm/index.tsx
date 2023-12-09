@@ -4,6 +4,7 @@ import { CheckboxCustom } from '../Checkbox';
 import { Feather } from '@expo/vector-icons';
 import colors from 'tailwindcss/colors';
 import { fetchApi as fetchApi } from '../../../utils/requests';
+import { useToast } from 'react-native-toast-notifications';
 
 
 interface NewHabitInput {
@@ -12,8 +13,11 @@ interface NewHabitInput {
 }
 
 const NewHabitForm = () => {
+  const toast = useToast();
+
   const [title, setTitle] = useState<string>('');
   const [weekDays, setWeekDays] = useState<number[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
 
   const weekDaysList: number[] = [0, 1, 2, 3, 4, 5, 6];
@@ -24,25 +28,42 @@ const NewHabitForm = () => {
     3: 'Quarta',
     4: 'Quinta',
     5: 'Sexta',
-    6: 'Sábado'
-    
+    6: 'Sábado'    
   };
 
   
   const handleSubmit = async () => {
-    const body: NewHabitInput = {
-      title,
-      weekDays,
-    };
+    setLoading(true);
+    try {
+      const url = `${process.env.REACT_APP_API_URL}/habits}`;
+      const body: NewHabitInput = {
+        title,
+        weekDays,
+      };
 
-    await fetchApi<NewHabitInput>({
-      method: 'POST',
-      url: '/habits',
-      headers: {},
-      body,
-    })
-      .then(() => ToastAndroid.show('Hábito criado com sucesso!', ToastAndroid.SHORT))
-      .catch(() => ToastAndroid.show('Erro ao criar hábito!', ToastAndroid.SHORT));
+      await fetchApi<NewHabitInput>({
+        method: 'POST',
+        url,
+        headers: {},
+        body,
+      });
+
+      toast.show("Hábito criado com sucesso!", {
+        type: 'success',
+        placement: 'top',
+        duration: 4000,
+        animationType: 'slide-in',
+      });
+    } catch (error) {
+      toast.show("Erro, tente novamente mais tarde.", {
+        type: 'error',
+        placement: 'top',
+        duration: 4000,
+        animationType: 'slide-in',
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
 
@@ -82,6 +103,7 @@ const NewHabitForm = () => {
             activeOpacity={0.7}
             className='flex-row h-12 px-4 border-violet-500 border rounded-lg items-center '
             onPress={handleSubmit}
+            disabled={loading}
         >
             <Feather
                 name="save"

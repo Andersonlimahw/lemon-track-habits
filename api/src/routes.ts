@@ -4,27 +4,41 @@ import { FastifyInstance } from "fastify";
 import { z } from "zod";
 
 export async function appRoutes(app: FastifyInstance) {
-  app.post("/habits", async (request) => {
-    const habbitInput = z.object({
-      title: z.string(),
-      weekDays: z.array(z.number().min(0).max(6)),
-    });
-    const { title, weekDays } = habbitInput.parse(request.body);
-
-    const today = dayjs().startOf("day").toDate();
-    await prisma.habit.create({
-      data: {
-        title,
-        created_at: today,
-        weekDays: {
-          create: weekDays.map((weekDay) => {
-            return {
-              week_day: weekDay,
-            };
-          }),
+  app.post("/habits", async (request, reply) => {
+    try {
+      const habbitInput = z.object({
+        title: z.string().min(1).max(255),
+        weekDays: z.array(z.number().min(0).max(6)),
+      });
+      const { title, weekDays } = habbitInput.parse(request.body);
+  
+      const today = dayjs().startOf("day").toDate();
+      const response = await prisma.habit.create({
+        data: {
+          title,
+          created_at: today,
+          weekDays: {
+            create: weekDays.map((weekDay) => {
+              return {
+                week_day: weekDay,
+              };
+            }),
+          },
         },
-      },
-    });
+      });
+      console.log('Success to create habits/habits response => ', response, ' request: ', request.body);
+      reply.code(201);
+      return {
+        data: {
+          id: response.id,
+          title: response.title,
+        },
+      }
+    } catch(error) {
+      console.log('Error to create habits/habits error => ', error, ' request: ', request.body);
+      throw error;
+    }
+   
   });
 
   app.get("/habits", async () => {
