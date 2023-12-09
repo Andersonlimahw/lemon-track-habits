@@ -16,5 +16,5 @@ app.register(appRoutes)
 
 
 app.listen({
-    port: 3333
+    port: 443
 }).then(() => console.log('Server is running'))

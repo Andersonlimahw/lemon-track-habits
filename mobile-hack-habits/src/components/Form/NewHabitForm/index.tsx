@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextInput, View, Text, TouchableOpacity, ToastAndroid } from 'react-native';
 import { CheckboxCustom } from '../Checkbox';
 import { Feather } from '@expo/vector-icons';
 import colors from 'tailwindcss/colors';
 import { fetchApi as fetchApi } from '../../../utils/requests';
 import { useToast } from 'react-native-toast-notifications';
+import {
+    load
+} from '../../../../node_modules/@react-native-community/cli/node_modules/js-yaml/dist/js-yaml';
 
 
 interface NewHabitInput {
@@ -32,6 +35,18 @@ const NewHabitForm = () => {
   };
 
   
+  useEffect(() => {
+    if(loading) {
+      toast.show("Carregando...", {
+        type: 'success',
+        placement: 'top',
+        duration: 4000,
+        animationType: 'slide-in',
+      });
+    }
+   
+  }, [loading]);
+
   const handleSubmit = async () => {
     setLoading(true);
     try {
@@ -43,7 +58,7 @@ const NewHabitForm = () => {
 
       await fetchApi<NewHabitInput>({
         method: 'POST',
-        url,
+        url: 'https://locahost:443/habits',
         headers: {},
         body,
       });
