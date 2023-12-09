@@ -17,6 +17,6 @@ Install dependencies
 Run project
 
 ```shell
-  npm run web
+  npm start
 
 ```
