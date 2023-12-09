@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
-import { Button, TextInput, View, Text, TouchableOpacity } from 'react-native';
+import { TextInput, View, Text, TouchableOpacity, ToastAndroid } from 'react-native';
 import { CheckboxCustom } from '../Checkbox';
 import { Feather } from '@expo/vector-icons';
 import colors from 'tailwindcss/colors';
+import { fetchApi as fetchApi } from '../../../utils/requests';
+
+
+interface NewHabitInput {
+  title: string;
+  weekDays: number[];
+}
 
 const NewHabitForm = () => {
   const [title, setTitle] = useState<string>('');
@@ -21,14 +28,21 @@ const NewHabitForm = () => {
     
   };
 
-  const handleSubmit = () => {
-    
-    const body = {
-      title, 
-      weekDays
-    }
-    // TODO : api request POST baseUrL/habits
-    alert(JSON.stringify(body));
+  
+  const handleSubmit = async () => {
+    const body: NewHabitInput = {
+      title,
+      weekDays,
+    };
+
+    await fetchApi<NewHabitInput>({
+      method: 'POST',
+      url: '/habits',
+      headers: {},
+      body,
+    })
+      .then(() => ToastAndroid.show('Hábito criado com sucesso!', ToastAndroid.SHORT))
+      .catch(() => ToastAndroid.show('Erro ao criar hábito!', ToastAndroid.SHORT));
   };
 
 
