@@ -23,18 +23,18 @@ const NewHabitForm = () => {
 
   const weekDaysList: number[] = [0, 1, 2, 3, 4, 5, 6];
   const weekDaysListLabels: any = {
-    0: 'Domingo', 
+    0: 'Domingo',
     1: 'Segunda',
     2: 'Terça',
     3: 'Quarta',
     4: 'Quinta',
     5: 'Sexta',
-    6: 'Sábado'    
+    6: 'Sábado'
   };
 
-  
+
   useEffect(() => {
-    if(loading) {
+    if (loading) {
       toast.show("Carregando...", {
         type: 'info',
         placement: 'bottom',
@@ -42,10 +42,10 @@ const NewHabitForm = () => {
         animationType: 'slide-in',
       });
     }
-   
+
   }, [loading]);
 
-  const resetState = () => { 
+  const resetState = () => {
     setTitle('');
     setWeekDays([]);
     setLoading(false);
@@ -98,12 +98,22 @@ const NewHabitForm = () => {
 
   return (
     <View>
-      <TextInput
-        value={title}
-        onChangeText={setTitle}
-        className='flex-row h-12 px-4 border-violet-500 border rounded-lg items-center text-white font-semibold my-4'
-        placeholder="Nome do hábito"
-      />
+      <View>
+        <Text className='text-white text-3xl font-bold my-5 mb-6'>
+          Criar hábito
+        </Text>
+      </View>
+      <View>
+        <Text className='text-white text-lg'>
+          Qual seu comprometimento?
+        </Text>
+        <TextInput
+          value={title}
+          onChangeText={setTitle}
+          className='flex-row h-12 px-4 py-2 bg-zinc-900 border-zinc-400 border rounded-lg items-center text-white font-semibold my-4 py-4 placeholder:text-zinc-100'
+          placeholder="Exercícios, dormir bem, etc..."
+        />
+      </View>
 
       <View className='flex my-4'>
         <Text className='text-white font-bold my-2'>Dias da semana:</Text>
@@ -120,20 +130,20 @@ const NewHabitForm = () => {
       </View>
 
       <TouchableOpacity
-            activeOpacity={0.7}
-            className='flex-row h-12 px-4 border-violet-500 border rounded-lg items-center '
-            onPress={handleSubmit}
-            disabled={loading}
-        >
-            <Feather
-                name="save"
-                color={colors.violet[500]}
-                size={20}
-            />
-            <Text className='text-white ml-3 font-semibold text-2xl text-center'>
-                Salvar
-            </Text>
-        </TouchableOpacity>
+        activeOpacity={0.7}
+        className='flex-row h-12 px-4 border-green-600 border rounded-lg items-center text-center bg-green-500 justify-center my-3'
+        onPress={handleSubmit}
+        disabled={loading}
+      >
+        <Feather
+          name="save"
+          color={colors.white}
+          size={20}
+        />
+        <Text className='text-white ml-3 font-semibold text-2xl text-center'>
+          Confirmar
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };

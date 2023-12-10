@@ -1,4 +1,4 @@
-import { Pressable, TouchableOpacity, View, Text } from "react-native";
+import { TouchableOpacity, View, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import colors from "tailwindcss/colors";
@@ -16,21 +16,24 @@ export const CheckboxCustom = ({ onChange, checked, label }: CheckboxProps) => {
   };
 
   return (
-    <View className='flex-row gap-4 my-2'>
+    <View className='flex-row gap-4 my-0 align-baseline'>
       <TouchableOpacity
-        className='flex items-center justify-center w-8 h-8 bg-violet-500  rounded-md'
+        className='flex items-center justify-center w-8 h-8 bg-green-500  rounded-md'
         onPress={handleToggle}
+        activeOpacity={0.8}
         role="checkbox"
       >
         {checked ? (
           <Ionicons
             name="checkmark"
             color={colors.white}
-            className='text-white dark:text-white text-4xl'
+            size={24}
+            className='text-white font-bold dark:text-white text-4xl'
           />
         ) : null}
+       
       </TouchableOpacity>
-      <Text className='text-white font-semibold my-2'>{label}</Text>
+      <Text className='text-white font-semibold my-1 py-1'>{label}</Text>
     </View>
 
   );

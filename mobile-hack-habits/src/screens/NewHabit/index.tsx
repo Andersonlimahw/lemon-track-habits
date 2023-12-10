@@ -11,17 +11,14 @@ export const NewHabit = () => {
     const BackButton = () => (
         <TouchableOpacity
             activeOpacity={0.7}
-            className='flex-row h-12 px-4 rounded-lg items-center my-4'
+            className='flex-row h-12 rounded-lg items-center my-5'
             onPress={() => navigate('home')}
         >
             <Feather
-                name="arrow-left-circle"
-                color={colors.violet[500]}
-                size={20}
-            />
-            <Text className='text-white ml-3 font-semibold text-base'>
-                Voltar
-            </Text>
+                name="arrow-left"
+                color={colors.zinc[500]}
+                size={40}
+            />            
         </TouchableOpacity>
     );
     return (
