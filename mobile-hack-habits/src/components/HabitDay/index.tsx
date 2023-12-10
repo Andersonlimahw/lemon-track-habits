@@ -10,15 +10,28 @@ export const DAY_SIZE = (Dimensions.get('screen').width / WEEK_DAYS) - (SCREEN_H
 type HabitDayProps = {
     disabled?: boolean,
     handleClick?: Function,
+    percentual: number,
 }
 
 export const HabitDay = (props: HabitDayProps) => {
+    const variant = () => {
+        if (props.disabled) {
+            return 'opacity-40 bg-zinc-800';
+        }       
+        if (props.percentual <= 10  && props.percentual < 30) {
+            return 'bg-violet-300';
+        }
+        if (props.percentual > 30 && props.percentual < 70) {
+            return 'bg-violet-500';
+        }
+        return 'bg-violet-900'
+    }
 
-    return(
+    return (
         <TouchableOpacity
-            className={`${props.disabled ? 'opacity-40 bg-zinc-900' : 'bg-violet-500'} rounded-lg border-2 m-1 border-zinc-800`}
+            className={`${variant()} rounded-lg border-2 m-1 border-zinc-800`}
             style={{
-                width: DAY_SIZE, 
+                width: DAY_SIZE,
                 height: DAY_SIZE
             }}
             onPress={() => props.handleClick && props.handleClick()}

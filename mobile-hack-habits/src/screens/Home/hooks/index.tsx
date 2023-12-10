@@ -1,25 +1,27 @@
-import { useToast } from "react-native-toast-notifications";
 import { fetchApi } from "../../../utils/requests";
 import { useEffect, useState } from "react";
-import { Habit } from "../../../models";
 import { API_BASE_URL } from "../../../utils/api-config";
+import { Summary } from "../../../models/summary";
 
-const fetchHabits = async (): Promise<Habit[]> => {
+interface GetSummaryResponse { 
+  data: Summary[];  
+}
+
+const fetchHabits = async (): Promise<GetSummaryResponse> => {
   try {
-    const url = `${API_BASE_URL}/habits`;
+    const url = `${API_BASE_URL}/summary`;
     const response = await fetchApi<any>({
       method: 'GET',
       url,
     });
-    return response as Habit[];
+    return response as GetSummaryResponse;
   } catch (error) {
     throw error;
   }
 };
 
 export const useLoadHabits = () => {
-  const toast = useToast();
-  const [habits, setHabits] = useState<Habit[]>([]);
+  const [habits, setHabits] = useState<Summary[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
  
   useEffect(() => {
@@ -27,21 +29,9 @@ export const useLoadHabits = () => {
       setLoading(true);
       await fetchHabits()
         .then((response) => {
-          // toast.show("Acompanhe seus hábitos", {
-          //   type: 'success',
-          //   placement: 'bottom',
-          //   duration: 4000,
-          //   animationType: 'slide-in',
-          // });
-          setHabits(response);
+          setHabits(response.data);
           console.info('[useLoadHabits]: fetchHabits success, response => ', response);
-        }).catch((error) => {
-          // toast.show("Erro, tente novamente mais tarde.", {
-          //   type: 'error',
-          //   placement: 'bottom',
-          //   duration: 4000,
-          //   animationType: 'slide-in',
-          // });
+        }).catch((error) => {         
           console.error('[useLoadHabits]: fetchHabits error => ', error);
           setHabits([]);
         })

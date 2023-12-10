@@ -4,7 +4,7 @@ import { DAY_SIZE, HabitDay } from '../../components/HabitDay/index';
 import { generateDatesFromYearBeginning } from "../../utils";
 import React, { useEffect } from 'react';
 import { useLoadHabits } from './hooks';
-import { Habit } from '../../models';
+import { Summary } from '../../models/summary';
 
 
 const weekDays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
@@ -15,26 +15,14 @@ const amountOfDaysToFill = mimimumSummaryDatesSizes - days.length;
 
 export const Home = () => {
     const { loading, habits } = useLoadHabits();    
-
-    useEffect(() => {
-       console.info('[Home]: habits => ', habits, loading);
-      }, [habits, loading])
-
-    const habbitsFilled = habits.map((habit : Habit) => {
-        const { id, title, created_at, weekDays : habitWeekDays,  } = habit;
-        // const dayHasHabits = days.
-        //     find((day : Date) => habitWeekDays
-        //     .find((x) => x.week_day === day.getDay()));
-        
+    const habbitsFilled = habits.map((summary : Summary) => {      
         return {
-            id,
-            title,
-            created_at,
-            weekDays: habitWeekDays
+            ...summary,
+            percentual: (summary.completed / summary.amount) * 100,
         }
     });
 
-    const mappedHabits = [...habbitsFilled, ...days]
+    const mappedHabits = [...days,...habbitsFilled ]
 
 
     return (
@@ -70,6 +58,8 @@ export const Home = () => {
                         loading && days.map((habit) => (
                             <HabitDay
                                 key={habit.toLocaleDateString()}
+                                disabled
+                                percentual={0}
                             />
                         ))
                     }
@@ -80,6 +70,7 @@ export const Home = () => {
                                 key={index}
                                 disabled={!habit.id}
                                 handleClick={() => alert(JSON.stringify(habit))}
+                                percentual={habit.percentual}
                             />
                         ))
                     }
@@ -92,9 +83,11 @@ export const Home = () => {
                         amountOfDaysToFill > 0 &&
                         Array.from({
                             length: amountOfDaysToFill
-                        }).map((_, index) => (<HabitDay
+                        }).map((_, index) => (
+                        <HabitDay
                             key={index}
                             disabled
+                            percentual={0}
                         />))
                     }
                 </View>
