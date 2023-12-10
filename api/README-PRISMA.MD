@@ -50,3 +50,44 @@ Start server:
 
 Now you api is running and you can make requests!
 ![Alt text](image-2.png)
+
+## Issues
+
+IOS has problem to https, so follow this steps:
+
+Generate your SSL certificate
+
+```shell  
+  openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -sha256 -days 365
+
+```
+
+copy generates files
+
+cert.pem
+key.pem
+
+and past at ssl folder
+
+![Alt text](image-3.png)
+
+Install ngrok
+
+```shell  
+  npm i -g ngrok
+
+```
+
+Autenticate:
+
+```shell  
+  npx ngrok config add-authtoken <custom_value>
+
+```
+
+Run ngrok to expose your api
+
+```shell  
+  ngrok https https://localhost:443
+
+```

@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { TextInput, View, Text, TouchableOpacity, ToastAndroid } from 'react-native';
+import { TextInput, View, Text, TouchableOpacity } from 'react-native';
 import { CheckboxCustom } from '../Checkbox';
 import { Feather } from '@expo/vector-icons';
 import colors from 'tailwindcss/colors';
 import { fetchApi as fetchApi } from '../../../utils/requests';
 import { useToast } from 'react-native-toast-notifications';
-import {
-    load
-} from '../../../../node_modules/@react-native-community/cli/node_modules/js-yaml/dist/js-yaml';
 
 
 interface NewHabitInput {
@@ -38,14 +35,20 @@ const NewHabitForm = () => {
   useEffect(() => {
     if(loading) {
       toast.show("Carregando...", {
-        type: 'success',
-        placement: 'top',
-        duration: 4000,
+        type: 'info',
+        placement: 'bottom',
+        duration: 1000,
         animationType: 'slide-in',
       });
     }
    
   }, [loading]);
+
+  const resetState = () => { 
+    setTitle('');
+    setWeekDays([]);
+    setLoading(false);
+  }
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -58,21 +61,22 @@ const NewHabitForm = () => {
 
       await fetchApi<NewHabitInput>({
         method: 'POST',
-        url: 'https://locahost:443/habits',
+        url,
         headers: {},
         body,
       });
 
       toast.show("Hábito criado com sucesso!", {
         type: 'success',
-        placement: 'top',
+        placement: 'bottom',
         duration: 4000,
         animationType: 'slide-in',
       });
+      resetState();
     } catch (error) {
       toast.show("Erro, tente novamente mais tarde.", {
         type: 'error',
-        placement: 'top',
+        placement: 'bottom',
         duration: 4000,
         animationType: 'slide-in',
       });
