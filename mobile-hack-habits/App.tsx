@@ -1,5 +1,5 @@
 
-import { StatusBar, View } from 'react-native';
+import { StatusBar } from 'react-native';
 import { ToastProvider } from 'react-native-toast-notifications'
 import { 
   useFonts, 
@@ -14,8 +14,8 @@ import { Loading } from './src/components'
 import { Routes } from './routes/index';
 import React from 'react';
 
-export default function App() {
 
+export default function App() {
   const [fonstLoaded] = useFonts({
     Inter_400Regular, 
     Inter_600SemiBold, 

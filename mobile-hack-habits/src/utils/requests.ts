@@ -1,8 +1,8 @@
 export interface FetchApiInput<T> {
   url: string,
   method: string,
-  headers: Record<string, string>,
-  body: T
+  headers?: Record<string, string>,
+  body?: T
 }
 
 export const fetchApi = <T>({
@@ -27,7 +27,7 @@ export const fetchApi = <T>({
         resolve(json)
       })
       .catch(error => {
-        console.error('Error on fetchApi', error);
+        console.error('Error on fetchApi', error, ' url : ', url);
         reject(error);
       });
   });

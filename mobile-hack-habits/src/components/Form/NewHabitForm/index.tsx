@@ -5,6 +5,7 @@ import { Feather } from '@expo/vector-icons';
 import colors from 'tailwindcss/colors';
 import { fetchApi as fetchApi } from '../../../utils/requests';
 import { useToast } from 'react-native-toast-notifications';
+import { API_BASE_URL } from '../../../utils/api-config';
 
 
 interface NewHabitInput {
@@ -53,7 +54,7 @@ const NewHabitForm = () => {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const url = `${process.env.REACT_APP_API_URL}/habits}`;
+      const url = `${API_BASE_URL}/habits}`;
       const body: NewHabitInput = {
         title,
         weekDays,

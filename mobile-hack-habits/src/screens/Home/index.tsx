@@ -2,14 +2,41 @@ import { View, Text, ScrollView } from 'react-native';
 import { Header } from "../../components/Header"
 import { DAY_SIZE, HabitDay } from '../../components/HabitDay/index';
 import { generateDatesFromYearBeginning } from "../../utils";
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useLoadHabits } from './hooks';
+import { Habit } from '../../models';
+
 
 const weekDays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
 const days = generateDatesFromYearBeginning();
 const mimimumSummaryDatesSizes = 18 * 5;
 const amountOfDaysToFill = mimimumSummaryDatesSizes - days.length;
 
+
 export const Home = () => {
+    const { loading, habits } = useLoadHabits();    
+
+    useEffect(() => {
+       console.info('[Home]: habits => ', habits, loading);
+      }, [habits, loading])
+
+    const habbitsFilled = habits.map((habit : Habit) => {
+        const { id, title, created_at, weekDays : habitWeekDays,  } = habit;
+        // const dayHasHabits = days.
+        //     find((day : Date) => habitWeekDays
+        //     .find((x) => x.week_day === day.getDay()));
+        
+        return {
+            id,
+            title,
+            created_at,
+            weekDays: habitWeekDays
+        }
+    });
+
+    const mappedHabits = [...habbitsFilled, ...days]
+
+
     return (
         <View className="bg-background flex-1 px-6 pt-16">
             <Header />
@@ -40,9 +67,19 @@ export const Home = () => {
                     className="flex-row flex-wrap"
                 >
                     {
-                        days.map((date) => (
+                        loading && days.map((habit) => (
                             <HabitDay
-                                key={date.toISOString()}
+                                key={habit.toLocaleDateString()}
+                            />
+                        ))
+                    }
+                    
+                    {
+                        !loading && mappedHabits.map((habit : any, index) => (
+                            <HabitDay
+                                key={index}
+                                disabled={!habit.id}
+                                handleClick={() => alert(JSON.stringify(habit))}
                             />
                         ))
                     }
