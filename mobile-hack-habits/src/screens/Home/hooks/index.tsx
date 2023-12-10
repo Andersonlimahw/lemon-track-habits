@@ -28,13 +28,8 @@ export const useLoadHabits = () => {
     (async () => {
       setLoading(true);
       await fetchHabits()
-        .then((response) => {
-          setHabits(response.data);
-          console.info('[useLoadHabits]: fetchHabits success, response => ', response);
-        }).catch((error) => {         
-          console.error('[useLoadHabits]: fetchHabits error => ', error);
-          setHabits([]);
-        })
+        .then((response) => setHabits(response.data))
+        .catch(() => setHabits([]))
         .finally(() => setLoading(false));
     })();
   }, []);
