@@ -60,6 +60,9 @@ export function AppRoutes() {
             <Screen
                 name="habit"
                 component={Habit}
+                options={{
+                    title: "Habit"
+                }}
             />
         </Navigator>
     )

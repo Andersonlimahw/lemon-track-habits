@@ -5,6 +5,7 @@ import { generateDatesFromYearBeginning } from "../../utils";
 import React, { useEffect } from 'react';
 import { useLoadHabits } from './hooks';
 import { Summary } from '../../models/summary';
+import { useNavigation } from '@react-navigation/native';
 
 
 const weekDays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
@@ -14,6 +15,7 @@ const amountOfDaysToFill = mimimumSummaryDatesSizes - days.length;
 
 
 export const Home = () => {
+    const navigation = useNavigation();
     const { loading, habits } = useLoadHabits();    
     const habbitsFilled = habits.map((summary : Summary) => {      
         return {
@@ -22,9 +24,14 @@ export const Home = () => {
         }
     });
 
-    const mappedHabits = [...days,...habbitsFilled ]
+    const mappedHabits = [...days,...habbitsFilled ];
 
-
+    const handleNavigation = (id : any) => {
+        const params = {
+            id
+        }
+        navigation.navigate('habit', { date: params.id })
+    }
     return (
         <View className="bg-background flex-1 px-6 pt-16">
             <Header />
@@ -69,7 +76,7 @@ export const Home = () => {
                             <HabitDay
                                 key={index}
                                 disabled={!habit.id}
-                                handleClick={() => alert(JSON.stringify(habit))}
+                                handleClick={() => handleNavigation(habit.id)}
                                 percentual={habit.percentual}
                             />
                         ))
