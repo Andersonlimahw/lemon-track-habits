@@ -3,7 +3,7 @@ import { TextInput, View, Text, TouchableOpacity } from 'react-native';
 import { CheckboxCustom } from '../Checkbox';
 import { Feather } from '@expo/vector-icons';
 import colors from 'tailwindcss/colors';
-import { fetchApi as fetchApi } from '../../../utils/requests';
+import { fetchApi } from '../../../utils/fetch-api';
 import { useToast } from 'react-native-toast-notifications';
 import { API_BASE_URL } from '../../../utils/api-config';
 

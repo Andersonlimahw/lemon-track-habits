@@ -1,4 +1,4 @@
-import { fetchApi } from "../../../utils/requests";
+import { fetchApi } from "../../../utils/fetch-api";
 import { useEffect, useState } from "react";
 import { API_BASE_URL } from "../../../utils/api-config";
 import { Summary } from "../../../models/summary";
