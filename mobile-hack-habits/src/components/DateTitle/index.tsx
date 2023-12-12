@@ -10,6 +10,7 @@ export const DateTitle = ({ date } : IDateTitleProps) => {
   const day = dateParsed.getDay();
   const month = dateParsed.getMonth();
 
+  // TODO: Fix bug
   const summaryDay = `${day}/${month}`
 
   return (

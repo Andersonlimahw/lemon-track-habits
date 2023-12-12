@@ -2,7 +2,7 @@ import { View, Text, ScrollView } from 'react-native';
 import { Header } from "../../components/Header"
 import { DAY_SIZE, HabitDay } from '../../components/HabitDay/index';
 import { generateDatesFromYearBeginning } from "../../utils";
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useLoadHabits } from './hooks';
 import { Summary } from '../../models/summary';
 import { useNavigation } from '@react-navigation/native';
@@ -11,7 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 const weekDays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
 const days = generateDatesFromYearBeginning();
 const mimimumSummaryDatesSizes = 18 * 5;
-const amountOfDaysToFill = mimimumSummaryDatesSizes - days.length;
+const amountOfDaysToFill = (habitsLength : number) => mimimumSummaryDatesSizes - habitsLength;
 
 
 export const Home = () => {
@@ -24,7 +24,7 @@ export const Home = () => {
         }
     });
 
-    const mappedHabits = [...days,...habbitsFilled ];
+    const mappedHabits = [...habbitsFilled ];
 
     const handleNavigation = (date : string) => {
         navigation.navigate('habit', { date: date })
@@ -84,9 +84,9 @@ export const Home = () => {
                     className="flex-row flex-wrap"
                 >
                     {
-                        amountOfDaysToFill > 0 &&
+                        amountOfDaysToFill(habbitsFilled.length) > 0 &&
                         Array.from({
-                            length: amountOfDaysToFill
+                            length: amountOfDaysToFill(habbitsFilled.length)
                         }).map((_, index) => (
                         <HabitDay
                             key={index}

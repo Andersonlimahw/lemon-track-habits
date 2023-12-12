@@ -7,15 +7,13 @@ import { CheckboxCustom } from '../../components/Form/Checkbox';
 import { ProgressBar } from '../../components/Progressbar';
 import { Feather } from '@expo/vector-icons';
 import colors from 'tailwindcss/colors';
-import { weekDaysListLabels } from '../../constants/week-days';
 import { DateTitle } from '../../components/DateTitle';
 
 export const Habit = () => {
     const route: any = useRoute();
     const { navigate } = useNavigation();
     const date = route.params?.date;
-    const defaultId = "0730ffac-d039-4194-9571-01aa2aa0efbd";
-    const { habitByDate, loading } = useLoadHabitByDate(date);
+    const { habitByDate, loading , fetchToggleHabit } = useLoadHabitByDate(date);
 
     const BackButton = () => (
         <TouchableOpacity
@@ -31,8 +29,6 @@ export const Habit = () => {
         </TouchableOpacity>
     );
 
-    
-
     const returnProgress = () => {
         if (habitByDate) {
             const { completedHabits, possibleHabits } = habitByDate;
@@ -44,26 +40,19 @@ export const Habit = () => {
         return 0;
     }
 
-    
-    
-
     return (
         <SafeAreaView>
             <View className='px-4 pt-4'>
+                {/* TODO : Empty screen */}
                 {
                     loading || !habitByDate ? <Text>Carregando...</Text> : null
                 }
                 <View>
                     <BackButton />
-
                     <DateTitle date={date} />
-
                     <ProgressBar progressPercentage={returnProgress()} />
-
                 </View>
                
-                {/* // TODO : update api to return resolved values on children */}
-
                 <View className='flex my-4'>
                     {!loading && habitByDate && habitByDate.possibleHabits.map((habit) => (
                         <View
@@ -72,15 +61,14 @@ export const Habit = () => {
                         >
                             <CheckboxCustom
                                 key={habit.id}
-                                checked={false}
+                                checked={habitByDate.completedHabits.includes(habit.id)}
                                 label={habit?.title}
-                                onChange={() => alert(date)}
+                                onChange={() => fetchToggleHabit(habit.id)}
                             />
                         </View>
                     ))}
                 </View>
             </View>
         </SafeAreaView>
-
     )
 }

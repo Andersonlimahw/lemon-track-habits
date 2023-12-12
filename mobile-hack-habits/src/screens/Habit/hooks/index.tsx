@@ -4,34 +4,67 @@ import { API_BASE_URL } from "../../../utils/api-config";
 import { Habit } from "../../../models";
 
 export interface IDataGetHabitByDateRespose {
-  possibleHabits: Habit[], 
+  possibleHabits: Habit[],
   completedHabits: string[]
 }
 export interface IGetHabitByDateRespose {
-  data: IDataGetHabitByDateRespose, 
+  data: IDataGetHabitByDateRespose,
   message: string
   code: string
 }
 
-const fetchDayByDate = async (date: Date): Promise<IGetHabitByDateRespose> => {
-  try {
-    const url = `${API_BASE_URL}/day?date=${date}`;
 
-    const response = await fetchApi<any>({
-      method: 'GET',
-      url
-    });
-    return response as IGetHabitByDateRespose;
-  } catch (error) {
-    throw error;
-  }
-};
+interface IToggleHabitData {
+  daiId: string;
+  habitId: string;
+}
+
+interface IToggleHabitResponse {
+  code: string;
+  data: IToggleHabitData;
+  message: string;
+}
+
 
 export const useLoadHabitByDate = (date: Date) => {
   const [habitByDate, setHabitByDate] = useState<IDataGetHabitByDateRespose>();
   const [loading, setLoading] = useState<boolean>(false);
-  // TODO : Change to react-use-query
- 
+
+  const fetchDayByDate = async (date: Date): Promise<IGetHabitByDateRespose> => {
+    try {
+      const url = `${API_BASE_URL}/day?date=${date}`;
+  
+      const response = await fetchApi<any>({
+        method: 'GET',
+        url
+      });
+      return response as IGetHabitByDateRespose;
+    } catch (error) {
+      throw error;
+    }
+  };
+  
+  const fetchToggleHabit = async (habitId: string): Promise<IToggleHabitResponse> => {
+    try {
+      setLoading(true);
+      const url = `${API_BASE_URL}/habits/${habitId}/toggle`;
+      const toggleHabitResponse = await fetchApi<IToggleHabitResponse>({
+        method: 'PATCH',
+        url,
+      });
+      await fetchDayByDate(date)
+        .then((response) => setHabitByDate(response.data))
+        .catch(() => setHabitByDate(undefined))
+        .finally(() => setLoading(false));
+      return toggleHabitResponse;
+    } catch (error) {
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  }
+  
+   
   useEffect(() => {
     (async () => {
       setLoading(true);
@@ -44,6 +77,7 @@ export const useLoadHabitByDate = (date: Date) => {
 
   return {
     habitByDate,
-    loading
+    loading,
+    fetchToggleHabit
   }
 }
