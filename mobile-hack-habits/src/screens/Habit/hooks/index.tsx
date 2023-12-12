@@ -51,6 +51,7 @@ export const useLoadHabitByDate = (date: Date) => {
       const toggleHabitResponse = await fetchApi<IToggleHabitResponse>({
         method: 'PATCH',
         url,
+        body: {} as IToggleHabitResponse
       });
       await fetchDayByDate(date)
         .then((response) => setHabitByDate(response.data))
