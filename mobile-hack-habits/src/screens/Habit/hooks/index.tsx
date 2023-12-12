@@ -53,11 +53,13 @@ export const useLoadHabitByDate = (date: Date) => {
         url,
         body: {}
       });
+
       await fetchDayByDate(date)
         .then((response) => setHabitByDate(response.data))
         .catch(() => setHabitByDate(undefined))
         .finally(() => setLoading(false));
       return toggleHabitResponse;
+      
     } catch (error) {
       throw error;
     } finally {

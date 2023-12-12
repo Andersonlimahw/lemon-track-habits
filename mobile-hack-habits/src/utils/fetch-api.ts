@@ -4,8 +4,6 @@ export interface FetchApiInput<I> {
   headers?: Record<string, string>,
   body?: I
 }
-
-// TODO : use T, O
 export const fetchApi = <I, O>({
   url, 
   method,

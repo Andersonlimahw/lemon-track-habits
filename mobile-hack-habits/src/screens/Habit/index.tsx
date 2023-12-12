@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useLoadHabitByDate } from './hooks';
-import { Habit as HabitModel } from '../../models';
 import { CheckboxCustom } from '../../components/Form/Checkbox';
 import { ProgressBar } from '../../components/Progressbar';
 import { Feather } from '@expo/vector-icons';
