@@ -4,9 +4,12 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { useLoadHabitByDate } from './hooks';
 import { Habit as HabitModel } from '../../models';
 import { CheckboxCustom } from '../../components/Form/Checkbox';
+import { ProgressBar } from '../../components/Progressbar';
 import { Feather } from '@expo/vector-icons';
 import colors from 'tailwindcss/colors';
 import { weekDaysListLabels } from '../../constants/week-days';
+import { DateTitle } from '../../components/DateTitle';
+
 export const Habit = () => {
     const route: any = useRoute();
     const { navigate } = useNavigation();
@@ -28,24 +31,20 @@ export const Habit = () => {
         </TouchableOpacity>
     );
 
-    const DateTile = () => {
-        const dateParsed = new Date(date || new Date());
-        const day = dateParsed.getDay();
-        const month = dateParsed.getMonth();
+    
 
-        return (
-            <View className='flex-column items-start pt-5 mt-10'>
-                <Text className='text-zinc-400 font-bold my-2 mb-1'>
-                    {weekDaysListLabels[day]}
-                </Text>
-                <View className='flex-col ml-2 text-white'>
-                    <Text className='text-white text-3xl font-bold my-5 mb-6'>
-                        {day}/{month}
-                    </Text>
-                </View>
-            </View>
-        )
+    const returnProgress = () => {
+        if (habitByDate) {
+            const { completedHabits, possibleHabits } = habitByDate;
+            const totalHabits = possibleHabits.length;
+            const totalCompletedHabits = completedHabits.length;
+            const progress = (totalCompletedHabits / totalHabits) * 100;
+            return progress;
+        }
+        return 0;
     }
+
+    
     
 
     return (
@@ -57,16 +56,15 @@ export const Habit = () => {
                 <View>
                     <BackButton />
 
-                    {DateTile()}
+                    <DateTitle date={date} />
 
-            
+                    <ProgressBar progressPercentage={returnProgress()} />
 
                 </View>
                
                 {/* // TODO : update api to return resolved values on children */}
 
                 <View className='flex my-4'>
-                    <Text className='text-white font-bold my-2'>Hábitos:</Text>
                     {!loading && habitByDate && habitByDate.possibleHabits.map((habit) => (
                         <View
                             key={habit.id}
@@ -76,7 +74,7 @@ export const Habit = () => {
                                 key={habit.id}
                                 checked={false}
                                 label={habit?.title}
-                                onChange={() => alert(JSON.stringify(habit))}
+                                onChange={() => alert(date)}
                             />
                         </View>
                     ))}
