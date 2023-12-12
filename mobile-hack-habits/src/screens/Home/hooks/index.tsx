@@ -10,7 +10,7 @@ interface GetSummaryResponse {
 const fetchHabits = async (): Promise<GetSummaryResponse> => {
   try {
     const url = `${API_BASE_URL}/summary`;
-    const response = await fetchApi<any>({
+    const response = await fetchApi<any, GetSummaryResponse>({
       method: 'GET',
       url,
     });

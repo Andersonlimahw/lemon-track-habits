@@ -52,7 +52,7 @@ const NewHabitForm = () => {
         weekDays,
       };
 
-      await fetchApi<NewHabitInput>({
+      await fetchApi<NewHabitInput, any>({
         method: 'POST',
         url,
         headers: {},

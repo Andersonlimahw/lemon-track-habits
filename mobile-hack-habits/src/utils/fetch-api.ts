@@ -1,16 +1,17 @@
-export interface FetchApiInput<T> {
+export interface FetchApiInput<I> {
   url: string,
   method: string,
   headers?: Record<string, string>,
-  body?: T
+  body?: I
 }
 
-export const fetchApi = <T>({
+// TODO : use T, O
+export const fetchApi = <I, O>({
   url, 
   method,
   headers,
   body,
-} :FetchApiInput<T>): Promise<any> => {
+} :FetchApiInput<I>): Promise<O> => {
   return new Promise((resolve, reject) => {
     fetch(url, {
       method,

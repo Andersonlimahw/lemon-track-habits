@@ -34,7 +34,7 @@ export const useLoadHabitByDate = (date: Date) => {
     try {
       const url = `${API_BASE_URL}/day?date=${date}`;
   
-      const response = await fetchApi<any>({
+      const response = await fetchApi<any, IGetHabitByDateRespose>({
         method: 'GET',
         url
       });
@@ -48,10 +48,10 @@ export const useLoadHabitByDate = (date: Date) => {
     try {
       setLoading(true);
       const url = `${API_BASE_URL}/habits/${habitId}/toggle`;
-      const toggleHabitResponse = await fetchApi<IToggleHabitResponse>({
+      const toggleHabitResponse = await fetchApi<any, IToggleHabitResponse>({
         method: 'PATCH',
         url,
-        body: {} as IToggleHabitResponse
+        body: {}
       });
       await fetchDayByDate(date)
         .then((response) => setHabitByDate(response.data))
