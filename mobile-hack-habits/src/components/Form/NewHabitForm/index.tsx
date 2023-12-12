@@ -6,6 +6,7 @@ import colors from 'tailwindcss/colors';
 import { fetchApi } from '../../../utils/fetch-api';
 import { useToast } from 'react-native-toast-notifications';
 import { API_BASE_URL } from '../../../utils/api-config';
+import { weekDaysList, weekDaysListLabels } from '../../../constants/week-days';
 
 
 interface NewHabitInput {
@@ -21,16 +22,7 @@ const NewHabitForm = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
 
-  const weekDaysList: number[] = [0, 1, 2, 3, 4, 5, 6];
-  const weekDaysListLabels: any = {
-    0: 'Domingo',
-    1: 'Segunda',
-    2: 'Terça',
-    3: 'Quarta',
-    4: 'Quinta',
-    5: 'Sexta',
-    6: 'Sábado'
-  };
+ 
 
 
   useEffect(() => {

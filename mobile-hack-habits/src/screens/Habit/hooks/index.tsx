@@ -9,7 +9,7 @@ const fetchHabitById = async (id: string): Promise<Habit> => {
     // const url = `${API_BASE_URL}/habits/${id}`;
     const response = await fetchApi<any>({
       method: 'GET',
-      url: 'https://596e-179-73-165-213.ngrok-free.app/habits/0730ffac-d039-4194-9571-01aa2aa0efbd'
+      url: 'https://02fb-179-73-165-213.ngrok-free.app/habits/0730ffac-d039-4194-9571-01aa2aa0efbd'
     });
     return response as Habit;
   } catch (error) {
