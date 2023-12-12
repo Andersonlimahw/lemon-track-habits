@@ -63,7 +63,7 @@ export async function appRoutes(app: FastifyInstance) {
       },
       include: {
         dayHabits: true,
-        weekDays: true,
+        weekDays: true
       },
     });
     return habits;

@@ -26,11 +26,8 @@ export const Home = () => {
 
     const mappedHabits = [...days,...habbitsFilled ];
 
-    const handleNavigation = (id : any) => {
-        const params = {
-            id
-        }
-        navigation.navigate('habit', { date: params.id })
+    const handleNavigation = (date : string) => {
+        navigation.navigate('habit', { date: date })
     }
     return (
         <View className="bg-background flex-1 px-6 pt-16">
@@ -76,7 +73,7 @@ export const Home = () => {
                             <HabitDay
                                 key={index}
                                 disabled={!habit.id}
-                                handleClick={() => handleNavigation(habit.id)}
+                                handleClick={() => handleNavigation(habit.date)}
                                 percentual={habit.percentual}
                             />
                         ))

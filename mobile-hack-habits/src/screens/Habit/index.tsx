@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { useLoadHabitById } from './hooks';
+import { useLoadHabitByDate } from './hooks';
 import { Habit as HabitModel } from '../../models';
 import { CheckboxCustom } from '../../components/Form/Checkbox';
 import { Feather } from '@expo/vector-icons';
@@ -10,9 +10,9 @@ import { weekDaysListLabels } from '../../constants/week-days';
 export const Habit = () => {
     const route: any = useRoute();
     const { navigate } = useNavigation();
-    const id = route.params?.date;
+    const date = route.params?.date;
     const defaultId = "0730ffac-d039-4194-9571-01aa2aa0efbd";
-    const { habitById, loading } = useLoadHabitById(id || defaultId);
+    const { habitByDate, loading } = useLoadHabitByDate(date);
 
     const BackButton = () => (
         <TouchableOpacity
@@ -29,9 +29,9 @@ export const Habit = () => {
     );
 
     const DateTile = () => {
-        const date = new Date(habitById?.created_at || new Date());
-        const day = date.getDay();
-        const month = date.getMonth();
+        const dateParsed = new Date(date || new Date());
+        const day = dateParsed.getDay();
+        const month = dateParsed.getMonth();
 
         return (
             <View className='flex-column items-start pt-5 mt-10'>
@@ -52,16 +52,14 @@ export const Habit = () => {
         <SafeAreaView>
             <View className='px-4 pt-4'>
                 {
-                    loading || !habitById ? <Text>Carregando...</Text> : null
+                    loading || !habitByDate ? <Text>Carregando...</Text> : null
                 }
                 <View>
                     <BackButton />
 
                     {DateTile()}
 
-                    <Text className='text-white text-3xl font-bold my-5 mb-6'>
-                        {habitById?.title}
-                    </Text>
+            
 
                 </View>
                
@@ -69,16 +67,16 @@ export const Habit = () => {
 
                 <View className='flex my-4'>
                     <Text className='text-white font-bold my-2'>Hábitos:</Text>
-                    {!loading && habitById && habitById.dayHabits.map((weekDay) => (
+                    {!loading && habitByDate && habitByDate.possibleHabits.map((habit) => (
                         <View
-                            key={weekDay.id}
+                            key={habit.id}
                             style={{ flexDirection: 'row', alignItems: 'center' }}
                         >
                             <CheckboxCustom
-                                key={weekDay.id}
+                                key={habit.id}
                                 checked={false}
-                                label={weekDay.habit?.title}
-                                onChange={() => alert(JSON.stringify(weekDay))}
+                                label={habit?.title}
+                                onChange={() => alert(JSON.stringify(habit))}
                             />
                         </View>
                     ))}
