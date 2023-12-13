@@ -34,7 +34,7 @@ export const HabitDay = (props: HabitDayProps) => {
                 width: DAY_SIZE,
                 height: DAY_SIZE
             }}
-            onPress={() => props.handleClick && props.handleClick()}
+            onPress={() => props.handleClick ? props.handleClick() : null}
         >
         </TouchableOpacity>
     )

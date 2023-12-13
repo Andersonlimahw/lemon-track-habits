@@ -69,6 +69,8 @@ export const useLoadHabitByDate = (date: Date) => {
   
    
   useEffect(() => {
+    if(!date) return;
+    
     (async () => {
       setLoading(true);
       await fetchDayByDate(date)

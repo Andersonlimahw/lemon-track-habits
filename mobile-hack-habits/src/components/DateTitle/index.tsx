@@ -6,11 +6,18 @@ interface IDateTitleProps {
     date: string;
 }
 export const DateTitle = ({ date }: IDateTitleProps) => {
-    const dateParsed = new Date(date);
-    const day = dateParsed.getUTCDay();
-    const month = dateParsed.getUTCMonth();
+    const now = new Date();
+    let dateUtc = new Date(now.toUTCString());
+    if(date) {
+        dateUtc = new Date(date.toLocaleString());
+    }
     
+    const day = dateUtc.getUTCDate();
+    const month = dateUtc.getUTCMonth() + 1;
     const summaryDay = `${day}/${month}`
+
+    console.log('[DateTitle]: dateParsed', dateUtc, ' date : ', date, ' day : ', day, ' month : ', month);
+
     return (
         <View className='flex-column items-start pt-5 mt-10'>
             <Text className='text-zinc-400 font-bold my-2 mb-1'>

@@ -24,7 +24,7 @@ export const Home = () => {
         }
     });
 
-    const mappedHabits = [...habbitsFilled ];
+    const mappedHabits = [...habbitsFilled, ...days ];
 
     const handleNavigation = (date : string) => {
         navigation.navigate('habit', { date: date })
@@ -59,7 +59,7 @@ export const Home = () => {
                     className="flex-row flex-wrap"
                 >
                     {
-                        loading && days.map((habit) => (
+                        loading && days.map((habit : Date) => (
                             <HabitDay
                                 key={habit.toLocaleDateString()}
                                 disabled
@@ -84,9 +84,9 @@ export const Home = () => {
                     className="flex-row flex-wrap"
                 >
                     {
-                        amountOfDaysToFill(habbitsFilled.length) > 0 &&
+                        amountOfDaysToFill(days.length) > 0 &&
                         Array.from({
-                            length: amountOfDaysToFill(habbitsFilled.length)
+                            length: amountOfDaysToFill(days.length)
                         }).map((_, index) => (
                         <HabitDay
                             key={index}
