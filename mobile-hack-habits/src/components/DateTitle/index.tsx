@@ -13,6 +13,7 @@ export const DateTitle = ({ date }: IDateTitleProps) => {
     }
     
     const day = dateUtc.getUTCDate();
+    const weekDayIndex = dateUtc.getUTCDay();
     const month = dateUtc.getUTCMonth() + 1;
     const summaryDay = `${day}/${month}`
 
@@ -21,7 +22,7 @@ export const DateTitle = ({ date }: IDateTitleProps) => {
     return (
         <View className='flex-column items-start pt-5 mt-10'>
             <Text className='text-zinc-400 font-bold my-2 mb-1'>
-                {weekDaysListLabels[day]}
+                {weekDaysListLabels[weekDayIndex]}
             </Text>
             <View className='flex-col ml-2 text-white'>
                 <Text className='text-white text-3xl font-bold my-5 mb-6'>

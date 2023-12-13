@@ -20,7 +20,7 @@ interface IToggleHabitData {
 }
 
 interface IToggleHabitResponse {
-  code: string;
+  code: 'removed' | 'completed';
   data: IToggleHabitData;
   message: string;
 }
@@ -53,13 +53,7 @@ export const useLoadHabitByDate = (date: Date) => {
         url,
         body: {}
       });
-
-      await fetchDayByDate(date)
-        .then((response) => setHabitByDate(response.data))
-        .catch(() => setHabitByDate(undefined))
-        .finally(() => setLoading(false));
-      return toggleHabitResponse;
-      
+      return toggleHabitResponse;      
     } catch (error) {
       throw error;
     } finally {

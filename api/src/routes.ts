@@ -125,7 +125,7 @@ export async function appRoutes(app: FastifyInstance) {
         daiId: day.id,
       },
       message: `Success, Habit ${message} with success`,
-      code: "200",
+      code: message,
     };
   });
 
