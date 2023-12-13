@@ -1,7 +1,8 @@
 import { fetchApi } from "../../../utils/fetch-api";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { API_BASE_URL } from "../../../utils/api-config";
 import { Summary } from "../../../models/summary";
+import { useFocusEffect } from "@react-navigation/native";
 
 interface GetSummaryResponse { 
   data: Summary[];  
@@ -33,6 +34,19 @@ export const useLoadHabits = () => {
         .finally(() => setLoading(false));
     })();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      const fetchData = async () => {
+        await fetchHabits()
+        .then((response) => setHabits(response.data))
+        .catch(() => setHabits([]))
+        .finally(() => setLoading(false));
+      };
+  
+      fetchData();
+    }, [])
+  );
 
   return {
     habits,
