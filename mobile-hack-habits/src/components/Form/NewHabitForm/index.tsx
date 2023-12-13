@@ -20,8 +20,6 @@ const NewHabitForm = () => {
   const [title, setTitle] = useState<string>('');
   const [weekDays, setWeekDays] = useState<number[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-
-
  
 
 
@@ -46,7 +44,7 @@ const NewHabitForm = () => {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const url = `${API_BASE_URL}/habits}`;
+      const url = `${API_BASE_URL}/habits`;
       const body: NewHabitInput = {
         title,
         weekDays,
