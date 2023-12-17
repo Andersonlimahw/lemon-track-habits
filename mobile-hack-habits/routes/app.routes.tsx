@@ -2,34 +2,12 @@ import { NativeStackNavigationOptions, createNativeStackNavigator } from "@react
 import { Home } from "../src/screens/Home/index";
 import { NewHabit } from "../src/screens/NewHabit/index";
 import { Habit } from './../src/screens/Habit/index';
-import { View, Text } from "react-native";
 import React from "react";
-
 const { Navigator, Screen } = createNativeStackNavigator();
 
 
-function NavigationTest() {
-    return (
-        <View className='flex-1 bg-background w-full px-4 p-4 min-w-full' style={{
-            flex: 1, 
-            backgroundColor: '#000', 
-            width: 1000,
-            height: 2000, 
-            marginTop: 150
-        }}>
-            <Text className='flex-1 bg-background text-white px-4 text-5xl max-w-5xl'>
-                Hack your Habits
-            </Text>
-            <Text className='flex-1 bg-background text-zinc px-4 text-5xl max-w-5xl'>
-                Teste dentro do navigator navigation teste
-            </Text>
-        </View>
-
-    )
-}
-
 const SCREEN_OPTIONS_CONFIG : NativeStackNavigationOptions = {
-    animation: "fade", 
+    animation: "slide_from_left", 
     headerShown: false,
     autoHideHomeIndicator: false, 
     contentStyle: {

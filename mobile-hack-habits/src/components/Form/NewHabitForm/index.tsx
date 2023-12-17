@@ -125,12 +125,7 @@ const NewHabitForm = () => {
         onPress={handleSubmit}
         disabled={loading}
       >
-        <Feather
-          name="save"
-          color={colors.white}
-          size={20}
-        />
-        <Text className='text-white ml-3 font-semibold text-2xl text-center'>
+        <Text className='text-zinc-900 ml-3 font-semibold text-2xl text-center'>
           Confirmar
         </Text>
       </TouchableOpacity>
