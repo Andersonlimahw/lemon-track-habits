@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 import { weekDaysListLabels } from "../../constants/week-days";
 
 interface IDateTitleProps {
-    date: string;
+    date: string | undefined;
 }
 export const DateTitle = ({ date }: IDateTitleProps) => {
     const now = new Date();

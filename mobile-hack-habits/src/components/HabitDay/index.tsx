@@ -19,12 +19,12 @@ export const HabitDay = (props: HabitDayProps) => {
             return 'opacity-40 bg-zinc-800';
         }       
         if (props.percentual <= 10  && props.percentual < 30) {
-            return 'bg-violet-300';
+            return 'bg-green-300';
         }
         if (props.percentual > 30 && props.percentual < 70) {
-            return 'bg-violet-500';
+            return 'bg-green-500';
         }
-        return 'bg-violet-900'
+        return 'bg-green-900'
     }
 
     return (

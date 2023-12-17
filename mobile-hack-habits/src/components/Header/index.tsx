@@ -14,12 +14,12 @@ export const Header = () => {
     const NewHabitButton = () => (
         <TouchableOpacity
             activeOpacity={0.7}
-            className='flex-row h-12 px-4 border-violet-500 border rounded-lg items-center'
+            className='flex-row h-12 px-4 border-green-500 border rounded-lg items-center'
             onPress={() => navigate('new')}
         >
             <Feather
                 name="plus"
-                color={colors.violet[500]}
+                color={colors.green[500]}
                 size={20}
             />
             <Text className='text-white ml-3 font-semibold text-base'>
