@@ -26,13 +26,13 @@ interface IToggleHabitResponse {
 }
 
 
-export const useLoadHabitByDate = (date: Date) => {
+export const useLoadHabitByDate = (date: Date, userId: string) => {
   const [habitByDate, setHabitByDate] = useState<IDataGetHabitByDateRespose>();
   const [loading, setLoading] = useState<boolean>(false);
 
-  const fetchDayByDate = async (date: Date): Promise<IGetHabitByDateRespose> => {
+  const fetchDayByDate = async (date: Date, userId: string): Promise<IGetHabitByDateRespose> => {
     try {
-      const url = `${API_BASE_URL}/day?date=${date}`;
+      const url = `${API_BASE_URL}/day?date=${date}&userId=${userId}`;
   
       const response = await fetchApi<any, IGetHabitByDateRespose>({
         method: 'GET',
@@ -67,12 +67,12 @@ export const useLoadHabitByDate = (date: Date) => {
     
     (async () => {
       setLoading(true);
-      await fetchDayByDate(date)
+      await fetchDayByDate(date, userId)
         .then((response) => setHabitByDate(response.data))
         .catch(() => setHabitByDate(undefined))
         .finally(() => setLoading(false));
     })();
-  }, [date]);
+  }, [date, userId]);
 
   return {
     habitByDate,

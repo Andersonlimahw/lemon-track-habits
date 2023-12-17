@@ -3,6 +3,7 @@ import { Home } from "../src/screens/Home/index";
 import { NewHabit } from "../src/screens/NewHabit/index";
 import { Habit } from './../src/screens/Habit/index';
 import React from "react";
+import { LoginScreen } from "../src/screens/Login";
 const { Navigator, Screen } = createNativeStackNavigator();
 
 
@@ -21,9 +22,16 @@ const SCREEN_OPTIONS_CONFIG : NativeStackNavigationOptions = {
 export function AppRoutes() {
     return (
         <Navigator
-            initialRouteName="home"
+            initialRouteName="login"
             screenOptions={SCREEN_OPTIONS_CONFIG}
         >
+            <Screen
+                name="login"
+                component={LoginScreen}
+                options={{
+                    title: "Login"
+                }}
+            />
             <Screen
                 name="home"
                 component={Home}

@@ -6,6 +6,8 @@ import React from 'react';
 import { useLoadHabits } from './hooks';
 import { Summary } from '../../models/summary';
 import { useNavigation } from '@react-navigation/native';
+import { useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 
 
 const weekDays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
@@ -16,7 +18,8 @@ const amountOfDaysToFill = (habitsLength : number) => mimimumSummaryDatesSizes -
 
 export const Home = () => {
     const navigation = useNavigation();
-    const { loading, habits } = useLoadHabits();    
+    const { userId } = useContext(AuthContext);
+    const { loading, habits } = useLoadHabits(userId);    
     const habbitsFilled = habits.map((summary : Summary) => {      
         return {
             ...summary,

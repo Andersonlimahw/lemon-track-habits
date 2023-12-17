@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useLoadHabitByDate } from './hooks';
@@ -10,12 +10,14 @@ import { DateTitle } from '../../components/DateTitle';
 import { useToast } from 'react-native-toast-notifications';
 import { BackButton } from '../../components/BackButton';
 import { EmptyHabit } from './components/Empty';
+import { AuthContext } from '../../context/AuthContext';
 
 export const Habit = () => {
     const route: any = useRoute();
     const toast = useToast();
+    const { userId } = useContext(AuthContext);
     const date = route.params?.date;
-    const { habitByDate, loading, fetchToggleHabit } = useLoadHabitByDate(date);
+    const { habitByDate, loading, fetchToggleHabit } = useLoadHabitByDate(date, userId);
     const [
         completedHabitsUpdated,
         setCompletedHabitsUpdated
@@ -71,7 +73,7 @@ export const Habit = () => {
                     loading && <Text>Carregando...</Text>
                 }
                 {
-                    !loading && !habitByDate && <EmptyHabit date={date} />
+                    (!loading && !habitByDate) || (habitByDate?.possibleHabits.length === 0) && <EmptyHabit date={date} />
                 }
                 {
                     !loading && habitByDate && habitByDate.possibleHabits.length > 0 && (

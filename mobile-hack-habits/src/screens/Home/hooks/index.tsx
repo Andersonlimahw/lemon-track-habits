@@ -8,9 +8,10 @@ interface GetSummaryResponse {
   data: Summary[];  
 }
 
-const fetchHabits = async (): Promise<GetSummaryResponse> => {
+const fetchHabits = async (userId: string): Promise<GetSummaryResponse> => {
   try {
-    const url = `${API_BASE_URL}/summary`;
+    if(!userId) return  {data: [] } as GetSummaryResponse;
+    const url = `${API_BASE_URL}/users/${userId}/summary`;
     const response = await fetchApi<any, GetSummaryResponse>({
       method: 'GET',
       url,
@@ -21,31 +22,31 @@ const fetchHabits = async (): Promise<GetSummaryResponse> => {
   }
 };
 
-export const useLoadHabits = () => {
+export const useLoadHabits = (userId: string) => {
   const [habits, setHabits] = useState<Summary[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
  
   useEffect(() => {
     (async () => {
       setLoading(true);
-      await fetchHabits()
+      await fetchHabits(userId)
         .then((response) => setHabits(response.data))
         .catch(() => setHabits([]))
         .finally(() => setLoading(false));
     })();
-  }, []);
+  }, [userId]);
 
   useFocusEffect(
     useCallback(() => {
       const fetchData = async () => {
-        await fetchHabits()
+        await fetchHabits(userId)
         .then((response) => setHabits(response.data))
         .catch(() => setHabits([]))
         .finally(() => setLoading(false));
       };
   
       fetchData();
-    }, [])
+    }, [userId])
   );
 
   return {

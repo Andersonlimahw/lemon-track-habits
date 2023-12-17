@@ -4,7 +4,8 @@ export interface User {
   name: string,
   email: string,
   token: string,
-  createdAt: Date,
+  createdAt?: Date,
   displayName: string;
   photoURL: string;
+  password?: string;
 }
