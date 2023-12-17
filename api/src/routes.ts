@@ -162,9 +162,10 @@ export async function appRoutes(app: FastifyInstance) {
   app.get("/day", async (request) => {
     const dayParamsInput = z.object({
       date: z.coerce.date(),
+      userId: z.string().uuid(),
     });
 
-    const { date } = dayParamsInput.parse(request.query);
+    const { date, userId } = dayParamsInput.parse(request.query);
     const weekDay = dayjs(date).get("day");
     const parsedDate = dayjs(date).startOf("day");
 
@@ -178,6 +179,7 @@ export async function appRoutes(app: FastifyInstance) {
             week_day: weekDay,
           },
         },
+        user_id: userId
       },
       include: {
         dayHabits: true,
@@ -191,7 +193,7 @@ export async function appRoutes(app: FastifyInstance) {
       },
       include: {
         dayHabits: true,
-      },
+      }
     });
 
     const completedHabits =
