@@ -45,12 +45,26 @@ export async function appRoutes(app: FastifyInstance) {
    
   });
 
-  app.get("/habits", async () => {
+  app.get("/habits", async (request, reply) => {
+    const routeParams = z.object({
+      userId: z.string(),
+    });
+
+    const { userId } = routeParams.parse(request.query);
+    if(!userId) {
+      reply.code(400);
+      return {
+        message: 'User id is required'
+      }
+    }
     const habits = await prisma.habit.findMany({
       include: {
         dayHabits: true,
         weekDays: true,
       },
+      where: {
+        user_id: userId
+      }
     });
     return habits;
   });
