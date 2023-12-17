@@ -3,14 +3,16 @@ import { prisma } from "./lib/prisma";
 import { FastifyInstance } from "fastify";
 import { z } from "zod";
 
+
 export async function appRoutes(app: FastifyInstance) {
   app.post("/habits", async (request, reply) => {
     try {
       const habbitInput = z.object({
         title: z.string().min(1).max(255),
         weekDays: z.array(z.number().min(0).max(6)),
+        userId: z.string().uuid(),
       });
-      const { title, weekDays } = habbitInput.parse(request.body);
+      const { title, weekDays, userId } = habbitInput.parse(request.body);
   
       const today = dayjs().startOf("day").toDate();
       const response = await prisma.habit.create({
@@ -21,9 +23,11 @@ export async function appRoutes(app: FastifyInstance) {
             create: weekDays.map((weekDay) => {
               return {
                 week_day: weekDay,
+                user_id: userId,
               };
             }),
           },
+          user: { connect: { id: userId } }, // Add this line to include the user property
         },
       });
       console.log('Success to create habits/habits response => ', response, ' request: ', request.body);
@@ -72,9 +76,10 @@ export async function appRoutes(app: FastifyInstance) {
   app.patch("/habits/:id/toggle", async (request) => {
     const toggleHabitParams = z.object({
       id: z.string().uuid(),
+      userId: z.string().uuid(),
     });
 
-    const { id } = toggleHabitParams.parse(request.params);
+    const { id, userId } = toggleHabitParams.parse(request.params);
     const today = dayjs().startOf("day").toDate();
     let message = "completed";
 
@@ -88,6 +93,7 @@ export async function appRoutes(app: FastifyInstance) {
       day = await prisma.day.create({
         data: {
           date: today,
+          user_id: userId
         },
       });
     }
@@ -115,6 +121,7 @@ export async function appRoutes(app: FastifyInstance) {
         data: {
           day_id: day.id,
           habit_id: id,
+          user_id: userId
         },
       });
     }
@@ -223,4 +230,113 @@ export async function appRoutes(app: FastifyInstance) {
       message: "Success, summar returned",
     };
   });
+
+  app.post("/users", async (request, reply) => {
+    try {
+      const userInput = z.object({
+        uid: z.string().min(1).max(450),
+        name: z.string().min(1).max(450),
+        email: z.string().min(1).max(450),
+        token: z.string().min(1).max(450),
+        photoURL: z.string(),
+        password: z.string().min(1).max(450),
+      });
+      const { name, email, token, photoURL } = userInput.parse(request.body);
+  
+      const response = await prisma.user.create({
+        data: {
+          name, 
+          email, 
+          token, 
+          photoURL,
+          password: token
+        },
+      });
+      console.log('Success to create users response => ', response, ' request: ', request.body);
+      reply.code(201);
+      return {
+        data: {
+          id: response.id,
+          response
+        },
+      }
+    } catch(error) {
+      console.log('Error to create users error => ', error, ' request: ', request.body);
+      throw error;
+    }
+   
+  });
+
+  app.get("/users/:id", async (request) => {
+    const routeParams = z.object({
+      id: z.string().uuid(),
+    });
+
+    const { id } = routeParams.parse(request.params);
+    const habits = await prisma.user.findUnique({
+      where: {
+        id: id
+      },
+      include: {
+        habits: true
+      },
+    });
+    return habits;
+  })
+
+  app.get("/users/:id/summary", async (request) => {
+    const routeParams = z.object({
+      id: z.string().uuid(),
+    });
+
+    const { id } = routeParams.parse(request.params);
+    const summary = await prisma.$queryRaw`
+      SELECT 
+        day.id,
+        day.date,
+        (
+          SELECT 
+            CAST(COUNT(*) AS FLOAT)
+          FROM days_habits dayHabit
+          WHERE dayHabit.day_id = day.id
+          AND dayHabit.user_id = ${id}
+        ) as completed,
+        (
+          SELECT 
+            CAST(COUNT(*) AS FLOAT)            
+          FROM habit_week_days weekDays
+          JOIN habits habit
+            ON habit.id = weekDays.habit_id
+          WHERE
+            weekDays.week_day = CAST(strftime('%w',day.date/1000.0,'unixepoch') AS INT)
+            AND habit.created_at <= day.date
+            AND habit.user_id = ${id}
+        ) as amount        
+      FROM days day
+      WHERE day.user_id = ${id}    
+    `;
+
+    return {
+      data: summary,
+      code: "200",
+      message: "Success, summary returned",
+    };
+  })
+
+  app.get("/users", async (request) => {
+    const routeParams = z.object({
+      email: z.string().email(),
+    });
+
+    const { email } = routeParams.parse(request.query);
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email
+      },
+      include: {
+        habits: true
+      },
+    });
+    return user;
+  })
 }

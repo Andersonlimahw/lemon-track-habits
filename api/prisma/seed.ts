@@ -12,15 +12,34 @@ const thirdHabitId = 'fa1a1bcf-3d87-4626-8c0d-d7fd1255ac00'
 const thirdHabitCreationDate = new Date('2023-01-08T03:00:00.000')
 
 
+
+const user_id = 'aa1a1bcf-3d87-a626-ac0d-a7fd1255aa00';
+
 const monday : number = 0;
 async function run() {
+  await prisma.dayHabit.deleteMany()
+  await prisma.habitWeekDays.deleteMany();
   await prisma.habit.deleteMany()
   await prisma.day.deleteMany()
+  await prisma.user.deleteMany()
 
+
+  await prisma.user.create({
+    data: {
+      id: user_id,
+      name: 'Lemon.dev',
+      email: 'lemon@lemon.dev.br', 
+      password: '123456',
+      token: user_id, 
+      photoURL: 'https://avatars.githubusercontent.com/u/15092575?s=48&amp;v=4',
+     }
+  })
+  
   /**
    * Create habits
    */
   await Promise.all([
+
     prisma.habit.create({
       data: {
         id: firstHabitId,
@@ -28,11 +47,12 @@ async function run() {
         created_at: firstHabitCreationDate,
         weekDays: {
           create: [
-            { week_day: 1 },
-            { week_day: 2 },
-            { week_day: 3 },
+            { week_day: 1, user_id: user_id},
+            { week_day: 2, user_id: user_id },
+            { week_day: 3, user_id: user_id },
           ]
-        }
+        },
+        user: { connect: { id: user_id } }
       }
     }),
 
@@ -43,11 +63,12 @@ async function run() {
         created_at: secondHabitCreationDate,
         weekDays: {
           create: [
-            { week_day: 3 },
-            { week_day: 4 },
-            { week_day: 5 },
+            { week_day: 3, user_id: user_id },
+            { week_day: 4 , user_id: user_id},
+            { week_day: 5, user_id: user_id },
           ]
-        }
+        }, 
+        user: { connect: { id: user_id } }
       }
     }),
 
@@ -58,13 +79,14 @@ async function run() {
         created_at: thirdHabitCreationDate,
         weekDays: {
           create: [
-            { week_day: 1 },
-            { week_day: 2 },
-            { week_day: 3 },
-            { week_day: 4 },
-            { week_day: 5 },
+            { week_day: 1, user_id: user_id },
+            { week_day: 2, user_id: user_id },
+            { week_day: 3, user_id: user_id},
+            { week_day: 4, user_id: user_id},
+            { week_day: 5, user_id: user_id },
           ]
-        }
+        }, 
+        user: { connect: { id: user_id } }
       }
     })
   ])
@@ -78,10 +100,12 @@ async function run() {
         /** Monday */
         date: new Date('2023-01-02T03:00:00.000z'),
         dayHabits: {
-          create: {
+          create: [{
             habit_id: firstHabitId,
-          }
-        }
+            user_id: user_id,
+          }]
+        },
+        user: { connect: { id: user_id } }
       }
     }),
 
@@ -93,10 +117,11 @@ async function run() {
         /** Friday */
         date: new Date('2023-01-06T03:00:00.000z'),
         dayHabits: {
-          create: {
-            habit_id: firstHabitId,
-          }
-        }
+          create: [
+            { habit_id: firstHabitId, user_id: user_id },
+          ]
+        },
+        user: { connect: { id: user_id } } // Add this line to include the user property
       }
     }),
 
@@ -109,13 +134,16 @@ async function run() {
         date: new Date('2023-01-04T03:00:00.000z'),
         dayHabits: {
           create: [
-            { habit_id: firstHabitId },
-            { habit_id: secondHabitId },
+            { habit_id: firstHabitId, user_id: user_id },
+            { habit_id: secondHabitId, user_id: user_id },
           ]
-        }
+        },
+        user: { connect: { id: user_id } } // Add this line to include the user property
       }
     }),
   ])
+
+
 }
 
 run()

@@ -27,7 +27,8 @@
     "react-native-screens": "~3.22.0",
     "react-native-svg": "13.9.0",
     "react-native-toast-notifications": "^3.4.0",
-    "react-native-web": "~0.19.6"
+    "react-native-web": "~0.19.6",
+    "firebase": "^9.7.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

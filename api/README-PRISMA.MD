@@ -10,7 +10,7 @@ Install prisma globally:
 Run migrations:
 
 ```shell  
-  prisma migrate dev --name 20230201230453_creating_database
+  npx prisma migrate dev --name 20230201230453_creating_database
 
 ```
 
