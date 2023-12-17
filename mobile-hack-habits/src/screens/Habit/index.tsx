@@ -1,21 +1,20 @@
-import React, { useContext, useState } from 'react';
-import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import React, { useState } from 'react';
+import { View, Text, SafeAreaView } from 'react-native';
+import { useRoute } from '@react-navigation/native';
 import { useLoadHabitByDate } from './hooks';
 import { CheckboxCustom } from '../../components/Form/Checkbox';
 import { ProgressBar } from '../../components/Progressbar';
-import { Feather } from '@expo/vector-icons';
-import colors from 'tailwindcss/colors';
+
 import { DateTitle } from '../../components/DateTitle';
 import { useToast } from 'react-native-toast-notifications';
 import { BackButton } from '../../components/BackButton';
 import { EmptyHabit } from './components/Empty';
-import { AuthContext } from '../../context/AuthContext';
+import { useAuth } from '../../hooks/Auth';
 
 export const Habit = () => {
     const route: any = useRoute();
     const toast = useToast();
-    const { userId } = useContext(AuthContext);
+    const { userId } = useAuth();
     const date = route.params?.date;
     const { habitByDate, loading, fetchToggleHabit } = useLoadHabitByDate(date, userId);
     const [

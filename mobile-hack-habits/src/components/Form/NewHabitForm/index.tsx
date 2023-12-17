@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextInput, View, Text, TouchableOpacity } from 'react-native';
 import { CheckboxCustom } from '../Checkbox';
 import { fetchApi } from '../../../utils/fetch-api';
 import { useToast } from 'react-native-toast-notifications';
 import { API_BASE_URL } from '../../../utils/api-config';
 import { weekDaysList, weekDaysListLabels } from '../../../constants/week-days';
-import { AuthContext } from '../../../context/AuthContext';
+import { useAuth } from '../../../hooks/Auth';
 
 
 interface NewHabitInput {
@@ -16,7 +16,7 @@ interface NewHabitInput {
 
 const NewHabitForm = () => {
   const toast = useToast();
-  const { userId } = useContext(AuthContext);
+  const { userId } = useAuth();
   const [title, setTitle] = useState<string>('');
   const [weekDays, setWeekDays] = useState<number[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
