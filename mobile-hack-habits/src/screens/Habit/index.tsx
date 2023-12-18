@@ -33,16 +33,6 @@ export const Habit = () => {
     }, [habitByDate, loading]);
 
     const handleToggleHabit = async (habitId: string) => {
-        const today = new Date();
-        if(date < today) {
-            toast.show("Só é possível completar um hábito no dia.", {
-                type: 'error',
-                placement: 'bottom',
-                duration: 1000,
-                animationType: 'zoom-in',
-            });
-            return; 
-        };
         await fetchToggleHabit(habitId).then(() => {
             toast.show("Hábito atualizado", {
                 type: 'success',
