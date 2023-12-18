@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { View, Text, SafeAreaView, ScrollView } from 'react-native';
+import React, { useMemo } from 'react';
+import { View, SafeAreaView, ScrollView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { useLoadHabitByDate } from './hooks';
 import { CheckboxCustom } from '../../components/Form/Checkbox';
@@ -33,7 +33,17 @@ export const Habit = () => {
     }, [habitByDate, loading]);
 
     const handleToggleHabit = async (habitId: string) => {
-        await fetchToggleHabit(habitId).then((response) => {
+        const today = new Date();
+        if(date < today) {
+            toast.show("Só é possível completar um hábito no dia.", {
+                type: 'error',
+                placement: 'bottom',
+                duration: 1000,
+                animationType: 'zoom-in',
+            });
+            return; 
+        };
+        await fetchToggleHabit(habitId).then(() => {
             toast.show("Hábito atualizado", {
                 type: 'success',
                 placement: 'bottom',
