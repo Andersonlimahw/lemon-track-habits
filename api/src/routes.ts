@@ -90,10 +90,15 @@ export async function appRoutes(app: FastifyInstance) {
   app.patch("/habits/:id/toggle", async (request) => {
     const toggleHabitParams = z.object({
       id: z.string().uuid(),
+    });
+
+    const toggleHabitBodyParams = z.object({
       userId: z.string().uuid(),
     });
 
-    const { id, userId } = toggleHabitParams.parse(request.params);
+    const { id } = toggleHabitParams.parse(request.params);
+    const { userId } = toggleHabitBodyParams.parse(request.body);
+    
     const today = dayjs().startOf("day").toDate();
     let message = "completed";
 

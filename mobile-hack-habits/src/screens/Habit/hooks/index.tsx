@@ -19,11 +19,18 @@ interface IToggleHabitData {
   habitId: string;
 }
 
+interface IToggleHabitRequest {
+  userId: string;
+  date: Date;
+}
+
+
 interface IToggleHabitResponse {
   code: 'removed' | 'completed';
   data: IToggleHabitData;
   message: string;
 }
+
 
 
 export const useLoadHabitByDate = (date: Date, userId: string) => {
@@ -48,10 +55,13 @@ export const useLoadHabitByDate = (date: Date, userId: string) => {
     try {
       setLoading(true);
       const url = `${API_BASE_URL}/habits/${habitId}/toggle`;
-      const toggleHabitResponse = await fetchApi<any, IToggleHabitResponse>({
+      const toggleHabitResponse = await fetchApi<IToggleHabitRequest, IToggleHabitResponse>({
         method: 'PATCH',
         url,
-        body: {}
+        body: {
+          userId, 
+          date: new Date()
+        }
       });
       return toggleHabitResponse;      
     } catch (error) {
