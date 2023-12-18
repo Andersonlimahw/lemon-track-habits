@@ -11,7 +11,7 @@ export const LoginScreen = () => {
   const { navigate } = useNavigation();
   const toast = useToast();
 
-  const { login, user, userId } = useAuth();
+  const { login, user, userId, loading } = useAuth();
 
     const navigateToHome = () =>  {
         navigate('home');
@@ -41,9 +41,10 @@ export const LoginScreen = () => {
             duration: 1000,
             animationType: 'slide-in',
           });       
-          // navigateToHome();    
+          navigateToHome();    
         }
-    }, [user, userId, user.email]);
+    }, [user, userId, user.email, loading]);
+    
 
   // TODO: update layout
   return (

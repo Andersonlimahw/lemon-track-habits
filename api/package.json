@@ -6,7 +6,9 @@
   "scripts": {
     "test": "npm run test",
     "dev": "npx tsx watch src/server.ts",
-    "seed": "npx prisma db seed"
+    "seed": "npx prisma db seed",
+    "server": "npx ngrok http https://localhost:443"
+   
   },
   "author": "andersonlimahw",
   "license": "MIT",
