@@ -53,7 +53,7 @@ export const useLoadHabitByDate = (date: Date, userId: string) => {
   
   const fetchToggleHabit = async (habitId: string): Promise<IToggleHabitResponse> => {
     try {
-      setLoading(true);
+     
       const url = `${API_BASE_URL}/habits/${habitId}/toggle`;
       const toggleHabitResponse = await fetchApi<IToggleHabitRequest, IToggleHabitResponse>({
         method: 'PATCH',
@@ -63,24 +63,28 @@ export const useLoadHabitByDate = (date: Date, userId: string) => {
           date: new Date()
         }
       });
+
+      await handleFetchByDate();
+
       return toggleHabitResponse;      
     } catch (error) {
       throw error;
-    } finally {
-      setLoading(false);
     }
   }
-  
+
+  const handleFetchByDate = async () => {
+    await fetchDayByDate(date, userId)
+    .then((response) => setHabitByDate(response.data))
+    .catch(() => setHabitByDate(undefined))
+    .finally(() => setLoading(false));    
+  }  
    
   useEffect(() => {
     if(!date) return;
     
     (async () => {
       setLoading(true);
-      await fetchDayByDate(date, userId)
-        .then((response) => setHabitByDate(response.data))
-        .catch(() => setHabitByDate(undefined))
-        .finally(() => setLoading(false));
+      await handleFetchByDate();
     })();
   }, [date, userId]);
 

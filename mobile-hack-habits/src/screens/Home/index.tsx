@@ -41,7 +41,10 @@ export const Home = () => {
             >
                 <DateTitle date={undefined} />
                 <Text className="text-zinc-400 text-xl font-semi-bold text-left mx-1">
-                    Acompanhe seus hábitos
+                    Acompanhe seus hábitos.
+                </Text>
+                <Text className="text-zinc-400 text-sm font-semi-bold text-left mx-1">
+                    um dia de cada vez
                 </Text>
             </View>
             <ScrollView

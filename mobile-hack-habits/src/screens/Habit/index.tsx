@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { View, Text, SafeAreaView, ScrollView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { useLoadHabitByDate } from './hooks';
@@ -18,22 +18,19 @@ export const Habit = () => {
     const { userId } = useAuth();
     const date = route.params?.date;
     const { habitByDate, loading, fetchToggleHabit } = useLoadHabitByDate(date, userId);
-    const [
-        completedHabitsUpdated,
-        setCompletedHabitsUpdated
-    ] = useState<string[]>(habitByDate?.completedHabits as string[] | []);
+   
 
 
     const returnProgressMemo = useMemo(() => {
         if (habitByDate) {
-            const { possibleHabits } = habitByDate;
+            const { possibleHabits, completedHabits } = habitByDate;
             const totalHabits = possibleHabits.length;
-            const totalCompletedHabits = completedHabitsUpdated?.length || 0;
+            const totalCompletedHabits = completedHabits?.length || 0;
             const progress = (totalCompletedHabits / totalHabits) * 100;
             return progress;
         }
         return 0;
-    }, [habitByDate, completedHabitsUpdated]);
+    }, [habitByDate, loading]);
 
     const handleToggleHabit = async (habitId: string) => {
         await fetchToggleHabit(habitId).then((response) => {
@@ -43,17 +40,6 @@ export const Habit = () => {
                 duration: 1000,
                 animationType: 'zoom-in',
             });
-            if (response.code === 'removed') {
-                return setCompletedHabitsUpdated((prevState: any[]) => {
-                    if (!prevState) return [];
-                    return [...prevState?.filter((habit) => habit !== habitId)]
-                })
-            }
-            return setCompletedHabitsUpdated((prevState: any[]) => {
-                if (!prevState) return [habitId];
-                return [...prevState, habitId]
-            })
-
         }).catch(() => {
             toast.show("Erro ao atualizar hábito", {
                 type: 'error',
@@ -69,6 +55,7 @@ export const Habit = () => {
         return (!loading  && !habitByDate);
     }, [loading, habitByDate, userId])
 
+
     return (
         <SafeAreaView>
             <View className='px-4 pt-4'>
@@ -79,7 +66,7 @@ export const Habit = () => {
                     shoulRenderEmptyMemo && <EmptyHabit date={date} />
                 }
                 {
-                    !loading && habitByDate && (
+                    !loading && habitByDate && habitByDate?.possibleHabits && (
                         <ScrollView
                             showsVerticalScrollIndicator={false}
                             contentContainerStyle={{
@@ -100,7 +87,7 @@ export const Habit = () => {
                                     >
                                         <CheckboxCustom
                                             key={habit.id}
-                                            checked={completedHabitsUpdated?.includes(habit.id)}
+                                            checked={habitByDate.completedHabits?.includes(habit.id)}
                                             label={habit?.title}
                                             onChange={() => handleToggleHabit(habit.id)} />
                                     </View>
