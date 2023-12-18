@@ -328,9 +328,10 @@ export async function appRoutes(app: FastifyInstance) {
             weekDays.week_day = CAST(strftime('%w',day.date/1000.0,'unixepoch') AS INT)
             AND habit.created_at <= day.date
             AND habit.user_id = ${id}
-        ) as amount        
+        ) as amount      
       FROM days day
-      WHERE day.user_id = ${id}    
+      WHERE day.user_id = ${id}       
+      ORDER BY day.date DESC   
     `;
 
     return {

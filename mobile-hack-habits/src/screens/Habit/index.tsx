@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { View, Text, SafeAreaView } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { useLoadHabitByDate } from './hooks';
 import { CheckboxCustom } from '../../components/Form/Checkbox';
@@ -80,7 +80,12 @@ export const Habit = () => {
                 }
                 {
                     !loading && habitByDate && (
-                        <>
+                        <ScrollView
+                            showsVerticalScrollIndicator={false}
+                            contentContainerStyle={{
+                                paddingBottom: 100
+                            }}
+                        >
                             <View>
                                 <BackButton page='home' />
                                 <DateTitle date={date} />
@@ -101,7 +106,7 @@ export const Habit = () => {
                                     </View>
                                 ))}
                             </View>
-                        </>
+                        </ScrollView>
                     )
                 }
 

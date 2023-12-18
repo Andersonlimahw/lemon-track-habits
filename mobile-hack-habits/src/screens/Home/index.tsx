@@ -7,49 +7,42 @@ import { useLoadHabits } from './hooks';
 import { Summary } from '../../models/summary';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../../hooks/Auth';
+import { DateTitle } from '../../components/DateTitle';
 
 
-const weekDays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
+
+
 const days = generateDatesFromYearBeginning();
 const mimimumSummaryDatesSizes = 18 * 5;
-const amountOfDaysToFill = (habitsLength : number) => mimimumSummaryDatesSizes - habitsLength;
+const amountOfDaysToFill = (habitsLength: number) => mimimumSummaryDatesSizes - habitsLength;
 
 
 export const Home = () => {
     const navigation = useNavigation();
     const { userId } = useAuth();
-    const { loading, habits } = useLoadHabits(userId);    
-    const habbitsFilled = habits.map((summary : Summary) => {      
+    const { loading, habits } = useLoadHabits(userId);
+    const habbitsFilled = habits.map((summary: Summary) => {
         return {
             ...summary,
             percentual: (summary.completed / summary.amount) * 100,
         }
     });
 
-    const mappedHabits = [...habbitsFilled, ...days ];
+    const mappedHabits = [...habbitsFilled, ...days];
 
-    const handleNavigation = (date : string) => {
+    const handleNavigation = (date: string) => {
         navigation.navigate('habit', { date: date })
     }
     return (
         <View className="bg-background flex-1 px-6 pt-16">
             <Header />
             <View
-                className="flex-row mt-6 mb-6"
+                className="mb-6"
             >
-                {
-                    weekDays.map((day, index) => (
-                        <Text
-                            key={index}
-                            className="text-zinc-400 text-xl font-semi-bold text-center mx-1"
-                            style={{
-                                width: DAY_SIZE
-                            }}
-                        >
-                            {day}
-                        </Text>
-                    ))
-                }
+                <DateTitle date={undefined} />
+                <Text className="text-zinc-400 text-xl font-semi-bold text-left mx-1">
+                    Acompanhe seus hábitos
+                </Text>
             </View>
             <ScrollView
                 showsVerticalScrollIndicator={false}
@@ -61,7 +54,7 @@ export const Home = () => {
                     className="flex-row flex-wrap"
                 >
                     {
-                        loading && days.map((habit : Date) => (
+                        loading && days.map((habit: Date) => (
                             <HabitDay
                                 key={habit.toLocaleDateString()}
                                 disabled
@@ -69,9 +62,9 @@ export const Home = () => {
                             />
                         ))
                     }
-                    
+
                     {
-                        !loading && mappedHabits.map((habit : any, index) => (
+                        !loading && mappedHabits.map((habit: any, index) => (
                             <HabitDay
                                 key={index}
                                 disabled={!habit.id}
@@ -90,11 +83,11 @@ export const Home = () => {
                         Array.from({
                             length: amountOfDaysToFill(days.length)
                         }).map((_, index) => (
-                        <HabitDay
-                            key={index}
-                            disabled
-                            percentual={0}
-                        />))
+                            <HabitDay
+                                key={index}
+                                disabled
+                                percentual={0}
+                            />))
                     }
                 </View>
             </ScrollView>
