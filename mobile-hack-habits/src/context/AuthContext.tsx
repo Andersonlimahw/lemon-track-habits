@@ -117,6 +117,7 @@ const AuthProvider: FC<any> = ({ children }) => {
       })();
     }
     console.log('[AuthContext] :  start : user chagend => ', user);
+    setLoading(false);
   }, [user?.uid, userToken]);
 
 
