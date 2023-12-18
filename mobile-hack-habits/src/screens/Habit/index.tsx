@@ -66,7 +66,7 @@ export const Habit = () => {
     }
 
     const shoulRenderEmptyMemo = useMemo(() => {
-        return !loading  || !habitByDate || habitByDate?.possibleHabits?.length === 0;
+        return (!loading  && !habitByDate);
     }, [loading, habitByDate, userId])
 
     return (
@@ -79,7 +79,7 @@ export const Habit = () => {
                     shoulRenderEmptyMemo && <EmptyHabit date={date} />
                 }
                 {
-                    !shoulRenderEmptyMemo && (
+                    !loading && habitByDate && (
                         <>
                             <View>
                                 <BackButton page='home' />

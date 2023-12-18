@@ -38,11 +38,11 @@ export const defaultContext: AuthProps = {
 
 const mockUser = {
   id: "0730ffac-d039-4194-9571-01aa2aa0efbd",
-  email: "Triston53@hotmail.com",
-  name: "Rachael Satterfield",
-  password: "1e1e3180-99ee-49ee-9d66-4d9a0b6ad125",
-  token: "1e1e3180-99ee-49ee-9d66-4d9a0b6ad125",
-  photoURL: "http://placeimg.com/640/480",
+  email: "lemon@lemon.dev.br",
+  name: "Lemon.dev",
+  password: "123456",
+  token: "0730ffac-d039-4194-9571-01aa2aa0efbd",
+  photoURL: "https://avatars.githubusercontent.com/u/15092575?s=48&amp;v=4",
   createdAt: "2023-12-17T18:26:25.999Z",
   updatedAt: "2023-12-17T18:26:25.999Z"
 };
