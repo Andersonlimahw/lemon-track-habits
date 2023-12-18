@@ -25,11 +25,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#121212"
-      }, 
+      },
       "package": "com.lemontrackhabits.lemon.dev.br"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e2f8af03-2ad8-4fd4-940d-3d3bd3db9b97"
+      }
     }
   }
 }

@@ -6,7 +6,10 @@
     "start": "npx expo start",
     "android": "npx expo start --android",
     "ios": "npx expo start --ios",
-    "web": "npx expo start --web"
+    "web": "npx expo start --web",
+    "build:configure": "npx eas build:configure",
+    "build:android": "npx eas build --platform android",
+    "build:ios": "npx eas build --platform ios"
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.2.2",

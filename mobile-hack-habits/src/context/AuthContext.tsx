@@ -2,7 +2,7 @@ import React, { FC, createContext, useState, useEffect } from "react";
 import * as Google from 'expo-auth-session/providers/google';
 
 import { User } from '../models/user';
-import { API_BASE_URL, EXPLO_CLIENT_ID, GOOGLE_CLIENT_ID, fetchApi } from "../utils";
+import { API_BASE_URL, EXPLO_CLIENT_ID, EXPO_GOOGLE_REDIRECT_URI, GOOGLE_ANDROID_CLIENT_ID, GOOGLE_CLIENT_ID, fetchApi } from "../utils";
 
 interface UserProps extends User {
   accessToken?: string;
@@ -18,9 +18,9 @@ const defaultUser: UserProps = {
   token: "",
 }
 
-const defaultReturn = async () => {};
+const defaultReturn = async () => { };
 
-interface AuthProps { 
+interface AuthProps {
   loading: boolean,
   user: UserProps,
   userId: string,
@@ -28,12 +28,12 @@ interface AuthProps {
   logout: any,
 }
 
-export const defaultContext : AuthProps = {
-    loading: false,
-    user: defaultUser,
-    userId: '',
-    login: defaultReturn,
-    logout: () => {},
+export const defaultContext: AuthProps = {
+  loading: false,
+  user: defaultUser,
+  userId: '',
+  login: defaultReturn,
+  logout: () => { },
 }
 
 const mockUser = {
@@ -48,7 +48,7 @@ const mockUser = {
 };
 
 
-const fetchUserByEmail = async (email : string): Promise<User> => {
+const fetchUserByEmail = async (email: string): Promise<User> => {
   try {
     const url = `${API_BASE_URL}/users?email=${email}`;
     const response = await fetchApi<any, User>({
@@ -61,7 +61,7 @@ const fetchUserByEmail = async (email : string): Promise<User> => {
   }
 };
 
-const fetchCreateUser = async (userInput : User): Promise<User> => {
+const fetchCreateUser = async (userInput: User): Promise<User> => {
   try {
     const url = `${API_BASE_URL}/users`;
     const response = await fetchApi<any, User>({
@@ -75,12 +75,28 @@ const fetchCreateUser = async (userInput : User): Promise<User> => {
   }
 };
 
-const handleLoginOrSignUp = async (userInput : UserProps) => { 
+const fetchUserByToken = async (tokenValue: string): Promise<User> => {
   try {
-    if(!userInput || !userInput.email) return;
+    const url = process.env.GOOGLE_GET_USER_URL as string;
+    const response = await fetchApi<any, User>({
+      method: 'GET',
+      url,
+      headers: {
+        Authorization: `Bearer ${tokenValue}`
+      }
+    });
+    return response as User;
+  } catch (error) {
+    throw error;
+  }
+}
+
+const handleLoginOrSignUp = async (userInput: UserProps) => {
+  try {
+    if (!userInput || !userInput.email) return;
 
     const userResponse = await fetchUserByEmail(userInput?.email);
-    if(userResponse) {
+    if (userResponse) {
       console.log('[handleLoginOrSignUp]: userResponse, by email: ok => ', userResponse.id);
       return userResponse
     }
@@ -92,56 +108,41 @@ const handleLoginOrSignUp = async (userInput : UserProps) => {
       photoURL: userInput.photoURL,
       password: userInput.accessToken || '',
       id: userInput.uid,
-      displayName:  userInput.name
+      displayName: userInput.name
     });
     console.log('[handleLoginOrSignUp]: userResponse, by email: not found created => ', newUserResponse.id);
     return newUserResponse;
   } catch {
     throw new Error('Erro ao criar usuário');
   }
- 
+
 }
 
 
 const AuthContext = createContext(defaultContext);
-const AuthProvider : FC<any> = ({ children }) => {
+const AuthProvider: FC<any> = ({ children }) => {
   const [user, setUser] = useState<UserProps | undefined>();
   const [userToken, setUserToken] = useState<string>();
   const [loading, setLoading] = useState(true);
-  const USER_COLLECTION_NAME = 'users';
-  // TODO : social login precisa ter com apple tbm, usando platform
 
   const [request, response, promptAsync] = Google.useAuthRequest({
-    responseType: "id_token",
-    expoClientId: EXPLO_CLIENT_ID,
-    androidClientId: GOOGLE_CLIENT_ID,
-    iosClientId: 'my-ios-id',
+    androidClientId: GOOGLE_ANDROID_CLIENT_ID,
+    redirectUri: EXPO_GOOGLE_REDIRECT_URI, 
+    scopes: ['profile', 'email'],
   });
 
-  const fetchUserByToken = async (tokenValue : string): Promise<User> => { 
-    try {
-      const url = process.env.GOOGLE_GET_USER_URL as string;
-      const response = await fetchApi<any, User>({
-        method: 'GET',
-        url,
-        headers:{
-          Authorization: `Bearer ${tokenValue}`
-        }
-      });
-      return response as User;
-    } catch (error) {
-      throw error;
-    }
-  
-  }
+ 
 
   useEffect(() => {
-    if(!response?.type) return;
+    setLoading(false);
     console.log('[AuthProvider] :  request ', request);
-    console.log('[AuthProvider] :  response => ',response);
+    if (!response) return;
+    console.log('[AuthProvider] :  request ', request);
+    console.log('[AuthProvider] :  response => ', response);
     console.log('[AuthProvider] :  response.type => ', response.type);
     const token = (response as any).authentication?.accessToken;
-    switch(response.type) {
+    setUserToken(token);
+    switch (response.type) {
       case "cancel":
       case "dismiss":
       case "opened":
@@ -151,65 +152,37 @@ const AuthProvider : FC<any> = ({ children }) => {
       case "success":
         console.log('[AuthProvider] :  response.type => ', response);
         fetchUserByToken(token)
+          .then(async (userResponse) => {
+            console.log('[AuthProvider] :  fetchUserByToken => ', token);
+            await handleLoginOrSignUp(userResponse);
+          }).catch((error) => {
+            console.error('[AuthProvider] :  fetchUserByToken => ', error);
+          })
     }
 
-  }, [request, response])
+  }, [request, response, promptAsync])
 
-  const getUser = async () => {
-    setLoading(true);
-    await onAuthStateChanged(auth, async (user : any) => {
-      try {
-        if (user) {
-          // Google request
-          const userResponse = await getById({
-            collectionName: USER_COLLECTION_NAME,
-            ...user,
-            id: user?.uid,           
-          });
-  
-          const userInput = {
-            ...user, 
-            ...userResponse,
-            id: user.id,
-            uid: user.id,
-          }
-  
-          // Merge google user with system user
-          const useSystemResponse = await handleLoginOrSignUp(userInput);
-          setUser((prevState : any) => ({
-            ...prevState, 
-            ...useSystemResponse
-          }));
-          setLoading(false);
-          console.log('[GetUser]: response => ', useSystemResponse, ' user: ', user);
-        } else {
-          setLoading(false);
-        }
-      } finally {
-        setLoading(false);
-      }
-     
-    });
-  };
+
 
   useEffect(() => {
-    if(!user?.uid || !user) {
-      console.log('[AuthContext] :  start');
+    if (!user?.uid || !user) {
+
       (async () => {
-          await getUser();
+        // await getUser();
       })();
     }
+    console.log('[AuthContext] :  start : user chagend => ', user);
   }, [user?.uid, userToken]);
 
- 
+
 
   const fakeLogin = () => {
     setLoading(true);
-    setUser((prevState : any) => ({
-      ...prevState, 
+    setUser((prevState: any) => ({
+      ...prevState,
       ...mockUser
     }));
-    setLoading(false); 
+    setLoading(false);
   }
 
 
@@ -224,12 +197,12 @@ const AuthProvider : FC<any> = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ 
-        loading,
-        user: user ?? defaultUser,
-        userId: user?.id as string,
-        login: handleLogin,
-        logout: handleLogout
+    <AuthContext.Provider value={{
+      loading,
+      user: user ?? defaultUser,
+      userId: user?.id as string,
+      login: handleLogin,
+      logout: handleLogout
     }}>
       {loading || children}
     </AuthContext.Provider>

@@ -13,3 +13,7 @@ web-build/
 
 # macOS
 .DS_Store
+
+credentials.json
+credentials.**
+credentials.android.md
