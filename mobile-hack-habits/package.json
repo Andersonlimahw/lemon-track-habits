@@ -30,7 +30,11 @@
     "react-native-screens": "~3.22.0",
     "react-native-svg": "13.9.0",
     "react-native-toast-notifications": "^3.4.0",
-    "react-native-web": "~0.19.6"
+    "react-native-web": "~0.19.6",
+    "expo-auth-session": "~5.0.2",
+    "expo-random": "~13.2.0",
+    "expo-web-browser": "~12.3.2",
+    "expo-application": "~5.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

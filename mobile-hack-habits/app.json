@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "mobile-hack-habits",
-    "slug": "mobile-hack-habits",
+    "name": "lemon-track-habits",
+    "slug": "lemon-track-habits",
+    "scheme": "lemon-track-habits",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -24,7 +25,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#121212"
-      }
+      }, 
+      "package": "com.lemontrackhabits.lemon.dev.br"
     },
     "web": {
       "favicon": "./assets/favicon.png"
