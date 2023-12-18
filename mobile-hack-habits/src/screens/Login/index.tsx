@@ -35,7 +35,7 @@ export const LoginScreen = () => {
 
     useEffect(() => {
         if(user && userId && user.email) {
-          toast.show("Bem-vindo", {
+          toast.show(`Bem-vindo ${user.name}`, {
             type: 'success',
             placement: 'bottom',
             duration: 1000,

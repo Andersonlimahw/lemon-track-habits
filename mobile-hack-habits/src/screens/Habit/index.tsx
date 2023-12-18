@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { View, Text, SafeAreaView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { useLoadHabitByDate } from './hooks';
@@ -10,6 +10,7 @@ import { useToast } from 'react-native-toast-notifications';
 import { BackButton } from '../../components/BackButton';
 import { EmptyHabit } from './components/Empty';
 import { useAuth } from '../../hooks/Auth';
+import { Loading } from '../../components';
 
 export const Habit = () => {
     const route: any = useRoute();
@@ -23,7 +24,7 @@ export const Habit = () => {
     ] = useState<string[]>(habitByDate?.completedHabits as string[] | []);
 
 
-    const returnProgress = () => {
+    const returnProgressMemo = useMemo(() => {
         if (habitByDate) {
             const { possibleHabits } = habitByDate;
             const totalHabits = possibleHabits.length;
@@ -32,7 +33,7 @@ export const Habit = () => {
             return progress;
         }
         return 0;
-    }
+    }, [habitByDate, completedHabitsUpdated]);
 
     const handleToggleHabit = async (habitId: string) => {
         await fetchToggleHabit(habitId).then((response) => {
@@ -64,28 +65,33 @@ export const Habit = () => {
 
     }
 
+    const shoulRenderEmptyMemo = useMemo(() => {
+        return !loading  || !habitByDate || habitByDate?.possibleHabits?.length === 0;
+    }, [loading, habitByDate, userId])
+
     return (
         <SafeAreaView>
             <View className='px-4 pt-4'>
-                {/* TODO : Empty screen */}
                 {
-                    loading && <Text>Carregando...</Text>
+                    loading && <Loading />
                 }
                 {
-                    (!loading && !habitByDate) || (habitByDate?.possibleHabits.length === 0) && <EmptyHabit date={date} />
+                    shoulRenderEmptyMemo && <EmptyHabit date={date} />
                 }
                 {
-                    !loading && habitByDate && habitByDate.possibleHabits.length > 0 && (
+                    !shoulRenderEmptyMemo && (
                         <>
                             <View>
                                 <BackButton page='home' />
                                 <DateTitle date={date} />
-                                <ProgressBar progressPercentage={returnProgress()} />
-                            </View><View className='flex my-4'>
-                                {!loading && habitByDate && habitByDate.possibleHabits.map((habit) => (
+                                <ProgressBar progressPercentage={returnProgressMemo} />
+                            </View>
+                            <View className='flex my-4'>
+                                {habitByDate?.possibleHabits.map((habit) => (
                                     <View
                                         key={habit.id}
-                                        style={{ flexDirection: 'row', alignItems: 'center' }}
+                                        className='flex-row align-center'
+                                        // style={{ flexDirection: 'row', alignItems: 'center' }}
                                     >
                                         <CheckboxCustom
                                             key={habit.id}

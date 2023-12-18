@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, ActivityIndicator } from 'react-native';
+import colors from 'tailwindcss/colors';
 
 export const Loading = () => (
 <View style={{
@@ -9,7 +10,7 @@ export const Loading = () => (
     backgroundColor: '#09090A',
 }}>
     <ActivityIndicator 
-        color="#7c3aed" 
+        color={colors.green[400]} 
         size="large"
     />
 

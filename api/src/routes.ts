@@ -27,7 +27,7 @@ export async function appRoutes(app: FastifyInstance) {
               };
             }),
           },
-          user: { connect: { id: userId } }, // Add this line to include the user property
+          user: { connect: { id: userId } }
         },
       });
       console.log('Success to create habits/habits response => ', response, ' request: ', request.body);
@@ -144,6 +144,7 @@ export async function appRoutes(app: FastifyInstance) {
       data: {
         habitId: id,
         daiId: day.id,
+        user_id: userId
       },
       message: `Success, Habit ${message} with success`,
       code: message,
