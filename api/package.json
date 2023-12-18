@@ -7,6 +7,7 @@
     "test": "npm run test",
     "dev": "npx tsx watch src/server.ts",
     "seed": "npx prisma db seed",
+    "studio": "npx prisma studio",
     "server": "npx ngrok http https://localhost:443"
    
   },
