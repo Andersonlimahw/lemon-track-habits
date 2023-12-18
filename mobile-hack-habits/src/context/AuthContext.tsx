@@ -1,25 +1,12 @@
 import React, { FC, createContext, useState, useEffect } from "react";
+import * as Google from 'expo-auth-session/providers/google';
 
-import {
-  onAuthStateChanged,
-  signOut,
-  GoogleAuthProvider,
-  signInWithPopup,
-} from "firebase/auth";
-import { 
-  auth, 
-  db, 
-  getById, 
-  googleAuthProvider 
-} from "../services";
 import { User } from '../models/user';
-import { API_BASE_URL, fetchApi } from "../utils";
+import { API_BASE_URL, EXPLO_CLIENT_ID, GOOGLE_CLIENT_ID, fetchApi } from "../utils";
 
 interface UserProps extends User {
   accessToken?: string;
 };
-
-
 
 const defaultUser: UserProps = {
   id: "",
@@ -119,9 +106,54 @@ const handleLoginOrSignUp = async (userInput : UserProps) => {
 const AuthContext = createContext(defaultContext);
 const AuthProvider : FC<any> = ({ children }) => {
   const [user, setUser] = useState<UserProps | undefined>();
+  const [userToken, setUserToken] = useState<string>();
   const [loading, setLoading] = useState(true);
   const USER_COLLECTION_NAME = 'users';
   // TODO : social login precisa ter com apple tbm, usando platform
+
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    responseType: "id_token",
+    expoClientId: EXPLO_CLIENT_ID,
+    androidClientId: GOOGLE_CLIENT_ID,
+    iosClientId: 'my-ios-id',
+  });
+
+  const fetchUserByToken = async (tokenValue : string): Promise<User> => { 
+    try {
+      const url = process.env.GOOGLE_GET_USER_URL as string;
+      const response = await fetchApi<any, User>({
+        method: 'GET',
+        url,
+        headers:{
+          Authorization: `Bearer ${tokenValue}`
+        }
+      });
+      return response as User;
+    } catch (error) {
+      throw error;
+    }
+  
+  }
+
+  useEffect(() => {
+    if(!response?.type) return;
+    console.log('[AuthProvider] :  request ', request);
+    console.log('[AuthProvider] :  response => ',response);
+    console.log('[AuthProvider] :  response.type => ', response.type);
+    const token = (response as any).authentication?.accessToken;
+    switch(response.type) {
+      case "cancel":
+      case "dismiss":
+      case "opened":
+      case "locked":
+      case "error":
+        console.error('[AuthProvider] :  response.type => ', response);
+      case "success":
+        console.log('[AuthProvider] :  response.type => ', response);
+        fetchUserByToken(token)
+    }
+
+  }, [request, response])
 
   const getUser = async () => {
     setLoading(true);
@@ -167,29 +199,9 @@ const AuthProvider : FC<any> = ({ children }) => {
           await getUser();
       })();
     }
-  }, [user?.uid]);
+  }, [user?.uid, userToken]);
 
-  const handleLogin = async () : Promise<any> => {
-    console.log('[Init][handleLogin] : User ');
-    await signInWithPopup(auth, googleAuthProvider)
-    .then((response : any) => {
-      const credential = GoogleAuthProvider.credentialFromResult(response);
-      const token = credential?.accessToken;
-      const user = response.user;
-      setUser((prevState : any) => ({
-        ...prevState, 
-        ...user,
-        accessToken: token,
-      }));
-      console.log('[Success][handleLogin] : User ', user, ' Token: ', token);
-      return user;
-    })
-    .catch((error: any) => {       
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      console.error('[Error][handleLogin]:', error, ' credential: ', credential);
-    }).finally(() => console.log('[Finally] : handleLogin'))
-    
-  };
+ 
 
   const fakeLogin = () => {
     setLoading(true);
@@ -202,17 +214,21 @@ const AuthProvider : FC<any> = ({ children }) => {
 
 
   const handleLogout = async () => {
-    signOut(auth);
+    // signOut(auth);
     setUser(undefined);
     return user;
   };
+
+  const handleLogin = async () => {
+    await promptAsync();
+  }
 
   return (
     <AuthContext.Provider value={{ 
         loading,
         user: user ?? defaultUser,
         userId: user?.id as string,
-        login: fakeLogin,
+        login: handleLogin,
         logout: handleLogout
     }}>
       {loading || children}
