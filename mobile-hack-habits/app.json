@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#1e1e1e"
+      "backgroundColor": "#121212"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -35,6 +35,21 @@
       "eas": {
         "projectId": "e2f8af03-2ad8-4fd4-940d-3d3bd3db9b97"
       }
-    }
+    }, 
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 33,
+            "targetSdkVersion": 33,
+            "buildToolsVersion": "33.0.0"
+          },
+          "ios": {
+            "deploymentTarget": "13.0"
+          }
+        }
+      ]
+    ]
   }
 }

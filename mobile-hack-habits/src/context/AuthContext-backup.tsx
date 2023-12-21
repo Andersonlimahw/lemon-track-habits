@@ -1,12 +1,8 @@
 import React, { FC, createContext, useState, useEffect } from "react";
 import * as Google from 'expo-auth-session/providers/google';
-import * as WebBrowser from 'expo-web-browser';
-import { makeRedirectUri } from "expo-auth-session";
 
 import { User } from '../models/user';
-import { API_BASE_URL, GOOGLE_CLIENT_ID, GOOGLE_GET_USER_URL, fetchApi } from "../utils";
-
-WebBrowser.maybeCompleteAuthSession();
+import { API_BASE_URL, EXPO_GOOGLE_REDIRECT_URI, GOOGLE_ANDROID_CLIENT_ID, fetchApi } from "../utils";
 
 interface UserProps extends User {
   accessToken?: string;
@@ -42,11 +38,11 @@ export const defaultContext: AuthProps = {
 
 const mockUser = {
   id: "0730ffac-d039-4194-9571-01aa2aa0efbd",
-  email: "Triston53@hotmail.com",
-  name: "Rachael Satterfield",
-  password: "1e1e3180-99ee-49ee-9d66-4d9a0b6ad125",
-  token: "1e1e3180-99ee-49ee-9d66-4d9a0b6ad125",
-  photoURL: "http://placeimg.com/640/480",
+  email: "lemon@lemon.dev.br",
+  name: "Lemon.dev",
+  password: "123456",
+  token: "0730ffac-d039-4194-9571-01aa2aa0efbd",
+  photoURL: "https://avatars.githubusercontent.com/u/15092575?s=48&amp;v=4",
   createdAt: "2023-12-17T18:26:25.999Z",
   updatedAt: "2023-12-17T18:26:25.999Z"
 };
@@ -79,21 +75,6 @@ const fetchCreateUser = async (userInput: User): Promise<User> => {
   }
 };
 
-const fetchUserByToken = async (tokenValue: string): Promise<User> => {
-  try {
-    const url = GOOGLE_GET_USER_URL as string;
-    const response = await fetchApi<any, User>({
-      method: 'GET',
-      url,
-      headers: {
-        Authorization: `Bearer ${tokenValue}`
-      }
-    });
-    return response as User;
-  } catch (error) {
-    throw error;
-  }
-}
 
 const handleLoginOrSignUp = async (userInput: UserProps) => {
   try {
@@ -122,79 +103,21 @@ const handleLoginOrSignUp = async (userInput: UserProps) => {
 
 }
 
-
 const AuthContext = createContext(defaultContext);
 const AuthProvider: FC<any> = ({ children }) => {
   const [user, setUser] = useState<UserProps | undefined>();
   const [userToken, setUserToken] = useState<string>();
   const [loading, setLoading] = useState(true);
 
-  // const [request, response, promptAsync] = Google.useAuthRequest({
-  //   responseType: "id_token",
-  //   expoClientId: "641320460003-188lenh4fe4d5p7b9ruosejsdvcpa1ae.apps.googleusercontent.com",
-  //   androidClientId: '641320460003-oa7o6fbr6uvn2f75pi938kup08ve5oe9.apps.googleusercontent.com',
-  //   // redirectUri: 'https://auth.expo.io/@andersonlimahw/lemon-track-habits', 
-  //   scopes: ['profile', 'email'],
-  // });
-
-  //   const [request, response, promptAsync] = Google.useIdTokenAuthRequest(
-  //     {
-  //         clientId: GOOGLE_CLIENT_ID,
-  //     },
-  //     { native: 'com.lemontrackhabits.lemon.dev.br://' }
-  // );
-
-  const [request, response, promptAsync] = Google.useAuthRequest({
-    androidClientId:
-      '641320460003-oa7o6fbr6uvn2f75pi938kup08ve5oe9.apps.googleusercontent.com',
-    clientId: 
-      '641320460003-188lenh4fe4d5p7b9ruosejsdvcpa1ae.apps.googleusercontent.com',
-  });
-
-  useEffect(() => {
-    setLoading(false);
-    console.log('[AuthProvider] [Init] :  request ', request);
-    if (!response) return;
-    console.log('[AuthProvider] :  request ', request);
-    console.log('[AuthProvider] :  response => ', response);
-    console.log('[AuthProvider] :  response.type => ', response.type);
-    const token = (response as any).authentication?.accessToken;
-    setUserToken(token);
-    switch (response.type) {
-      case "cancel":
-        console.warn('[AuthProvider] :  cancel response.type => ', response);
-        break;
-      case "dismiss":
-      case "opened":
-      case "locked":
-      case "error":
-        console.error('[AuthProvider] :  error: response.type => ', response);
-        break;
-      case "success":
-        console.log('[AuthProvider] :  response.type => ', response);
-        fetchUserByToken(token)
-          .then(async (userResponse) => {
-            await handleLoginOrSignUp(userResponse);
-            console.log('[AuthProvider] :  fetchUserByToken => ', token, ' userResponse => ', userResponse);
-          }).catch((error) => {
-            console.error('[AuthProvider] :  fetchUserByToken => ', error);
-          })
-      default:  
-          () => {}
-    }
-
-  }, [request, response, promptAsync])
-
-
-
   useEffect(() => {
     if (!user?.uid || !user) {
 
       (async () => {
-        // await getUser();
+        // await handleLoginOrSignUp(user as UserProps);
       })();
     }
     console.log('[AuthContext] :  start : user chagend => ', user);
+    setLoading(false);
   }, [user?.uid, userToken]);
 
 
@@ -215,16 +138,13 @@ const AuthProvider: FC<any> = ({ children }) => {
     return user;
   };
 
-  const handleLogin = async () => {
-    await promptAsync();
-  }
 
   return (
     <AuthContext.Provider value={{
       loading,
       user: user ?? defaultUser,
       userId: user?.id as string,
-      login: handleLogin,
+      login: fakeLogin,
       logout: handleLogout
     }}>
       {loading || children}
