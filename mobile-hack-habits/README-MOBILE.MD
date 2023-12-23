@@ -6,6 +6,7 @@ install expo global
   npm install -g expo-cli
 
 ```
+
 Use no
 Install dependencies
 
@@ -20,3 +21,6 @@ Run project
   npm start
 
 ```
+
+Install expo on your device
+[expo](https://expo.dev/)

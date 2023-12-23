@@ -2,7 +2,7 @@ import React, { FC, createContext, useState, useEffect } from "react";
 import * as Google from 'expo-auth-session/providers/google';
 
 import { User } from '../models/user';
-import { API_BASE_URL, EXPO_GOOGLE_REDIRECT_URI, GOOGLE_ANDROID_CLIENT_ID, fetchApi } from "../utils";
+import { API_BASE_URL, fetchApi } from "../utils";
 
 interface UserProps extends User {
   accessToken?: string;
@@ -128,14 +128,13 @@ const AuthProvider: FC<any> = ({ children }) => {
       ...prevState,
       ...mockUser
     }));
+    setUserToken(mockUser.token);
     setLoading(false);
   }
 
 
   const handleLogout = async () => {
-    // signOut(auth);
     setUser(undefined);
-    return user;
   };
 
 

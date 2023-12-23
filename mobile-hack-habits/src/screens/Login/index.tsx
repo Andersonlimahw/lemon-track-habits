@@ -15,43 +15,42 @@ export const LoginScreen = () => {
 
   const { login, user, userId, loading } = useAuth();
 
-    const navigateToHome = () =>  {
-        navigate('home');
-    }
-    
-    const handleLogin = async () => {
-        try {
-            await login();
-            navigateToHome();
-        } catch (ex) {
-          toast.show("Erro ao logar", {
-            type: 'error',
-            placement: 'bottom',
-            duration: 1000,
-            animationType: 'slide-in',
-          });
-          console.error('[Error][handleLogin]:', ex);
-        }
+  const navigateToHome = () => {
+    navigate('home');
+  }
 
+  const handleLogin = async () => {
+    try {
+      await login();
+      navigateToHome();
+    } catch (ex) {
+      toast.show("Erro ao logar", {
+        type: 'error',
+        placement: 'bottom',
+        duration: 1000,
+        animationType: 'slide-in',
+      });
+      console.error('[Error][handleLogin]:', ex);
     }
 
-    useEffect(() => {
-        if(user && userId && user.email) {
-          toast.show(`Bem-vindo ${user.name}`, {
-            type: 'success',
-            placement: 'bottom',
-            duration: 1000,
-            animationType: 'slide-in',
-          });       
-          navigateToHome();    
-        }
-    }, [user, userId, user.email, loading]);
-    
+  }
+
+  useEffect(() => {
+    if (user && userId && user.email) {
+      toast.show(`Bem-vindo ${user.name}`, {
+        type: 'success',
+        placement: 'bottom',
+        duration: 1000,
+        animationType: 'slide-in',
+      });
+      navigateToHome();
+    }
+  }, [user, userId, user.email, loading]);
 
 
   return (
     <SafeAreaView className='h-4 py-10 mx-4 flex'>
-      <View className='px-4 py-12 items-center'>
+      <View className='container px-4 py-12 items-center'>
         <View className='flex-row h-10 mt-12 py-12' />
         <TouchableOpacity
           activeOpacity={0.7}
@@ -64,14 +63,13 @@ export const LoginScreen = () => {
             size={52}
           />
           <Text className='text-green-400 text-2xl'>
-            Login
-          </Text>        
+            Entrar
+          </Text>
         </TouchableOpacity>
-       
-       <View className='p-12'>
-        <Logo />
-       </View>
-        
+
+        <View className='p-12'>
+          <Logo />
+        </View>
         <Text className='text-zinc-400 py-6'>
           um passo de cada vez.
         </Text>
