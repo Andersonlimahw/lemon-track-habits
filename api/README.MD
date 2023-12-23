@@ -1,4 +1,4 @@
-<h1 align="center">Bem-vindo ao lemon-track-habits 🍋</h1>
+<h1 align="center">Bem-vindo ao lemon-track-habits, API 🍋</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
 
@@ -13,22 +13,22 @@
  <img
    height="32"
    width="32"
-   src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/react.svg"
+   src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/prisma.svg"
  />
  <img
    height="32"
    width="32"
-   src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/typescript.svg"
+   src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/fastify.svg"
  />
  <img
    height="32"
    width="32"
-   src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/expo.svg"
+   src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/zod.svg"
  />
 
 ## ✨ Features ✨
 
-Aplicativo desenvolvido com react native e expo para acompanhamento de hábitos diários.
+Api para o aplicativo desenvolvido com react native e expo para acompanhamento de hábitos diários.
 
 * Login : fake login screeen
   
@@ -36,7 +36,7 @@ Aplicativo desenvolvido com react native e expo para acompanhamento de hábitos 
 
 * Novo hábitos : criei um novo hábito
 
-* Hábito:
+* Hábito: lista dos hábitos por dia.
 
 ## Install
 
@@ -47,41 +47,21 @@ npm install --force
 ## Run
 
 ```sh
-npm run start
+npm run dev
 
 ```
 
-## Expo
+## Prisma
 
-Install expo on your device
-[expo](https://expo.dev/)
+Leia mais aqui
+[prisma](./README-PRISMA.MD)
 
 ## Tecnologias
 
-[expo](https://expo.dev/)
-[react native](https://reactnative.dev/docs/getting-started)
-[react](https://react.dev/learn)
-[context api](https://react.dev/reference/react/useContext)
-[typescript](https://www.typescriptlang.org/docs/)
-[tailwindcss](https://tailwindcss.com/)
-
-### ✨ [Demo]
-
-Login:
-
-![login](./demo/login.jpg)
-
-Home:
-
-![home](./demo/home.jpg)
-
-Novo Habito:
-
-![login](./demo/novo-habito.jpg)
-
-Habitos:
-
-![login](./demo/habitos.jpg)
+[nodejs](https://nodejs.org/en)
+[fastify](https://fastify.dev/)
+[prisma](https://www.prisma.io/)
+[sqlite](https://www.sqlite.org/index.html)
 
 ## Author
 

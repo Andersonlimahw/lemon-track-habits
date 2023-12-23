@@ -1,4 +1,4 @@
-<h1 align="center">Bem-vindo ao lemon-track-habits 🍋</h1>
+<h1 align="center">Bem-vindo ao lemon-track-habits, API 🍋</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
 
@@ -36,7 +36,7 @@ Aplicativo desenvolvido com react native e expo para acompanhamento de hábitos 
 
 * Novo hábitos : criei um novo hábito
 
-* Hábito:
+* Hábito: lista dos hábitos por dia
 
 ## Install
 

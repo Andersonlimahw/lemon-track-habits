@@ -1,27 +1,27 @@
 ## Prisma
 
-Install prisma globally:
+## Install prisma globally
 
 ```shell
   npm i -g prisma
 
 ```
 
-Run migrations:
+## Run migrations
 
 ```shell  
   npx prisma migrate dev --name 20230201230453_creating_database
 
 ```
 
-Run seed to populate dabase with data
+## Run seed to populate dabase with data
 
 ```shell  
   npm run seed
 
 ```
 
-Running prisma studio
+## Running prisma studio
 
 ```shell
   dotenv -e .env.local -- npx prisma studio
@@ -34,10 +34,10 @@ Prisma Studio is up on <http://localhost:5555>
 
 Terminal:
 
-![Alt text](image.png)
+![Alt text](./demo/image.png)
 
 Browser:
-![Alt text](image-1.png)
+![Alt text](./demo/image-1.png)
 
 In another terminal, run api
 
@@ -49,7 +49,7 @@ Start server:
 ```
 
 Now you api is running and you can make requests!
-![Alt text](image-2.png)
+![Alt text](./demo/image-2.png)
 
 ## Issues
 
@@ -69,7 +69,7 @@ key.pem
 
 and past at ssl folder
 
-![Alt text](image-3.png)
+![Alt text](./demo/image-3.png)
 
 Install ngrok
 

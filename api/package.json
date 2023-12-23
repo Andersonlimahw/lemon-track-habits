@@ -4,7 +4,6 @@
   "description": "nlw hack habits apis",
   "main": "index.js",
   "scripts": {
-    "test": "npm run test",
     "dev": "npx tsx watch src/server.ts",
     "seed": "npx prisma db seed",
     "studio": "npx prisma studio",
