@@ -51,6 +51,11 @@ npm run dev
 
 ```
 
+## Postman collection
+
+[postman tests](./tests/integrated/NLW%20-%20Hack%20Habits%20Api.postman_collection.json)
+![Alt text](./demo/postman.png)
+
 ## Prisma
 
 Leia mais aqui

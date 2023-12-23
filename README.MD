@@ -25,6 +25,21 @@
    width="32"
    src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/expo.svg"
  />
+  <img
+   height="32"
+   width="32"
+   src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/prisma.svg"
+ />
+ <img
+   height="32"
+   width="32"
+   src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/fastify.svg"
+ />
+ <img
+   height="32"
+   width="32"
+   src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/zod.svg"
+ />
 
 ## ✨ Features ✨
 
@@ -38,25 +53,17 @@ Aplicativo desenvolvido com react native e expo para acompanhamento de hábitos 
 
 * Hábito: lista dos hábitos por dia
 
-## Install
+## Mobile
 
-```sh
-npm install --force
-```
+[📃 saiba mais aqui](./mobile-hack-habits/README.MD)
 
-## Run
+## Api
 
-```sh
-npm run start
-
-```
-
-## Expo
-
-Install expo on your device
-[expo](https://expo.dev/)
+[📃 saiba mais aqui](./api/README.MD)
 
 ## Tecnologias
+
+### Mobile
 
 [expo](https://expo.dev/)
 [react native](https://reactnative.dev/docs/getting-started)
@@ -65,23 +72,30 @@ Install expo on your device
 [typescript](https://www.typescriptlang.org/docs/)
 [tailwindcss](https://tailwindcss.com/)
 
+### Api
+
+[nodejs](https://nodejs.org/en)
+[fastify](https://fastify.dev/)
+[prisma](https://www.prisma.io/)
+[sqlite](https://www.sqlite.org/index.html)
+
 ### ✨ [Demo]
 
 Login:
 
-![login](./demo/login.jpg)
+![login](./mobile-hack-habits/demo/login.jpg)
 
 Home:
 
-![home](./demo/home.jpg)
+![home](./mobile-hack-habits/demo/home.jpg)
 
 Novo Habito:
 
-![login](./demo/novo-habito.jpg)
+![login](./mobile-hack-habits/demo/novo-habito.jpg)
 
 Habitos:
 
-![login](./demo/habitos.jpg)
+![login](./mobile-hack-habits/demo/habitos.jpg)
 
 ## Author
 

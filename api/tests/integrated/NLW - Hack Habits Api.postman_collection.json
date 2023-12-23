@@ -1,0 +1,594 @@
+{
+	"info": {
+		"_postman_id": "3bbb9645-371c-4bf9-8f3f-6be31ea8b828",
+		"name": "NLW - Hack Habits Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3518806"
+	},
+	"item": [
+		{
+			"name": "Habits",
+			"item": [
+				{
+					"name": "Post: Create Habit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"💻 MBA : XPE\", \r\n    \"userId\": \"51690f44-f513-4b67-9a90-28dee77a8a8c\",\r\n    \"weekDays\": [\r\n        0, \r\n        1,\r\n        2,\r\n        3,\r\n        4,\r\n        5,\r\n        6\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:443/habits",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "443",
+							"path": [
+								"habits"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post: Create Habit - Error",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"\", \r\n    \"userId\": \"51690f44-f513-4b67-9a90-28dee77a8a8c\",\r\n    \"weekDays\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:443/habits",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "443",
+							"path": [
+								"habits"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Habits",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:443/habits?userId=0730ffac-d039-4194-9571-01aa2aa0efbd",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "443",
+							"path": [
+								"habits"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "0730ffac-d039-4194-9571-01aa2aa0efbd"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Habits - By id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:443/habits/0730ffac-d039-4194-9571-01aa2aa0efbd",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "443",
+							"path": [
+								"habits",
+								"0730ffac-d039-4194-9571-01aa2aa0efbd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Habits - By id Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://596e-179-73-165-213.ngrok-free.app/habits/0730ffac-d039-4194-9571-01aa2aa0efbd",
+							"protocol": "https",
+							"host": [
+								"596e-179-73-165-213",
+								"ngrok-free",
+								"app"
+							],
+							"path": [
+								"habits",
+								"0730ffac-d039-4194-9571-01aa2aa0efbd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch: Toggle Habit",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"0730ffac-d039-4194-9571-01aa2aa0efbd\"   \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:443/habits/:id/toggle",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "443",
+							"path": [
+								"habits",
+								":id",
+								"toggle"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "fa1a1bcf-3d87-4626-8c0d-d7fd1255ac00"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Days",
+			"item": [
+				{
+					"name": "Get Days",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:443/days",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "443",
+							"path": [
+								"days"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Day by date",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:443/day?date=2023-12-12&userId=0730ffac-d039-4194-9571-01aa2aa0efbd",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "443",
+							"path": [
+								"day"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "2023-12-12"
+								},
+								{
+									"key": "userId",
+									"value": "0730ffac-d039-4194-9571-01aa2aa0efbd"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Day by date - today",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:443/day?date=2023-12-06T03:00:00.000Z&userId=0730ffac-d039-4194-9571-01aa2aa0efbd",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "443",
+							"path": [
+								"day"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "2023-12-06T03:00:00.000Z"
+								},
+								{
+									"key": "userId",
+									"value": "0730ffac-d039-4194-9571-01aa2aa0efbd"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Summary",
+			"item": [
+				{
+					"name": "GET :  Summary",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:443/summary",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "443",
+							"path": [
+								"summary"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET :  Summary Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://192.168.1.10:443/summary",
+							"protocol": "https",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"10"
+							],
+							"port": "443",
+							"path": [
+								"summary"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Post: Create users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"uid\": \"{{$randomUUID}}\", \r\n    \"name\": \"{{$randomFullName}}\", \r\n    \"email\": \"{{$randomEmail}}\", \r\n    \"token\": \"{{$randomUUID}}\", \r\n    \"photoURL\": \"{{$randomImageUrl}}\",\r\n    \"password\": \"{{$randomPassword}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:443/users",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "443",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET :  User by email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:443/users?email=lemon@lemon.dev.br",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "443",
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "lemon@lemon.dev.br"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET :  User by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:443/users/:id",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "443",
+							"path": [
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "0730ffac-d039-4194-9571-01aa2aa0efbd"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET :  users/:id/summary",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:443/users/:id/summary",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "443",
+							"path": [
+								"users",
+								":id",
+								"summary"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "0730ffac-d039-4194-9571-01aa2aa0efbd"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
